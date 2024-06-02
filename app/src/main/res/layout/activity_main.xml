@@ -6,14 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="32dp"
-    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
+        style="@style/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E8E8E8"
         app:itemIconTint="@color/icons_color"
         app:itemTextColor="@color/icons_color"
         app:layout_constraintBottom_toBottomOf="parent"

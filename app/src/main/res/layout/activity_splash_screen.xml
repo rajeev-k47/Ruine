@@ -5,27 +5,27 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     tools:context=".splash_screen">
 
     <ImageView
         android:id="@+id/imageView2"
+        style="@style/logo_splash"
         android:layout_width="319dp"
         android:layout_height="311dp"
         android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo_light" />
 
     <TextView
         android:id="@+id/Mail"
+        style="@style/TEXT"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="RUINE"
-        android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

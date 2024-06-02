@@ -8,17 +8,17 @@
     app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView9"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:text="Group Name"
-            android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/grp_name"
@@ -60,6 +60,7 @@
 
         <EditText
             android:id="@+id/grp_name"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="40sp"
             android:layout_marginTop="44dp"
@@ -68,7 +69,6 @@
             android:inputType="text"
             android:paddingLeft="10sp"
             android:paddingRight="10sp"
-            android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.45"
@@ -77,11 +77,11 @@
 
         <TextView
             android:id="@+id/textView10"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Tag Mail"
-            android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/grp_name"
             app:layout_constraintHorizontal_bias="0.0"
@@ -90,6 +90,7 @@
 
         <EditText
             android:id="@+id/grp_tag_mail"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="4dp"
@@ -98,7 +99,6 @@
             android:inputType="text"
             android:paddingLeft="10sp"
             android:paddingRight="10sp"
-            android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/textView10"
             app:layout_constraintHorizontal_bias="0.0"
