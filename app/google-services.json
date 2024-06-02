@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "460948780073",
+    "project_id": "ruine-dbab1",
+    "storage_bucket": "ruine-dbab1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460948780073:android:cd11764cd5022dbb7b9838",
+        "android_client_info": {
+          "package_name": "com.example.ruine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460948780073-nicjd08qrsldo1a4n4is9btlepsv3ak0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ruine",
+            "certificate_hash": "eff7c4d185e1fadd0e910df07b6c6065df3d689b"
+          }
+        },
+        {
+          "client_id": "460948780073-9lcm88na3nu4771c2kig7kfirr4i4j9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl3fIzSXXTTNQDEn_lRvktRfNIb4qWmvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460948780073-9lcm88na3nu4771c2kig7kfirr4i4j9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
