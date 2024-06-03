@@ -126,8 +126,8 @@
 
     <Button
         android:id="@+id/google"
-        android:layout_width="39dp"
-        android:layout_height="47dp"
+        android:layout_width="41dp"
+        android:layout_height="45dp"
         android:layout_marginTop="140dp"
         android:backgroundTint="@color/green"
         android:paddingLeft="12dp"
