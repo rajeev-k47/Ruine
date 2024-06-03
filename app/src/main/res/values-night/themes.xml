@@ -23,4 +23,7 @@
     <style name="notbar">
         <item name="android:statusBarColor">@color/green</item>
     </style>
+    <style name="popup">
+        <item name="android:background">@drawable/textview_background</item>
+    </style>
 </resources>

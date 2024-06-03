@@ -21,4 +21,7 @@
         <item name="itemIconTint">@color/bottom_nav_color_light</item>
         <item name="itemTextColor">@color/bottom_nav_color_light</item>
     </style>
+    <style name="popup">
+        <item name="android:background">@drawable/textview_background_light</item>
+    </style>
 </resources>
