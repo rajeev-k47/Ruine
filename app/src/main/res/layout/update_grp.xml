@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/popup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="6dp"
+    android:paddingRight="12dp">
+
+    <TextView
+        android:id="@+id/textView9"
+        style="@style/TEXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group Name"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/update_grp_name"
+        app:layout_constraintEnd_toEndOf="@+id/update_grp_name"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/update_grp_name" />
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/green"
+        android:text="Update"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/update_grp_tag_mail"
+        app:layout_constraintTop_toBottomOf="@+id/update_grp_tag_mail"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/update_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/green"
+        android:text="Cancel"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:iconSize="18dp"
+        app:layout_constraintEnd_toEndOf="@+id/update_grp_tag_mail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/update"
+        app:layout_constraintTop_toBottomOf="@+id/update_grp_tag_mail" />
+
+    <EditText
+        android:id="@+id/update_grp_name"
+        style="@style/popup"
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        style="@style/TEXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tag Mail"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/update_grp_tag_mail"
+        app:layout_constraintEnd_toEndOf="@+id/update_grp_tag_mail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/update_grp_tag_mail" />
+
+    <EditText
+        android:id="@+id/update_grp_tag_mail"
+        style="@style/popup"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/update_grp_name"
+        app:layout_constraintStart_toStartOf="@+id/update_grp_name"
+        app:layout_constraintTop_toBottomOf="@+id/update_grp_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
