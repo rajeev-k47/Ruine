@@ -8,7 +8,7 @@
     app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/background"
+        style="@style/popup"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -60,11 +60,10 @@
 
         <EditText
             android:id="@+id/grp_name"
-            style="@style/TEXT"
+            style="@style/popup"
             android:layout_width="wrap_content"
             android:layout_height="40sp"
             android:layout_marginTop="44dp"
-            android:background="@drawable/textview_background"
             android:ems="10"
             android:inputType="text"
             android:paddingLeft="10sp"
@@ -90,11 +89,10 @@
 
         <EditText
             android:id="@+id/grp_tag_mail"
-            style="@style/TEXT"
+            style="@style/popup"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/textview_background"
             android:ems="10"
             android:inputType="text"
             android:paddingLeft="10sp"
