@@ -57,6 +57,9 @@ class Groups : Fragment() {
             add_popupwindow.isFocusable = true
             add_popupwindow.update()
 
+            add_view.findViewById<EditText>(R.id.grp_name).setText("")
+            add_view.findViewById<EditText>(R.id.grp_tag_mail).setText("")
+
         }
 
         add_submit.setOnClickListener {
