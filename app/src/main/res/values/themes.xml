@@ -16,4 +16,9 @@
     <style name="background">
         <item name="android:background">@color/white</item>
     </style>
+    <style name="bottomnavbar">
+        <item name="android:background">@color/white</item>
+        <item name="itemIconTint">@color/bottom_nav_color_light</item>
+        <item name="itemTextColor">@color/bottom_nav_color_light</item>
+    </style>
 </resources>

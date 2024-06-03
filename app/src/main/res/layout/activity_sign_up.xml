@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    style="@style/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C6F6E6"
     tools:context=".SignUp">
 
     <TextView
         android:id="@+id/textView4"
+        style="@style/TEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="Email"
-        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/signup_email"
@@ -24,11 +24,11 @@
 
     <TextView
         android:id="@+id/textView5"
+        style="@style/TEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="Username"
-        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/signup_username"
@@ -38,11 +38,11 @@
 
     <TextView
         android:id="@+id/textView6"
+        style="@style/TEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="Password"
-        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/signup_password"
@@ -52,11 +52,11 @@
 
     <TextView
         android:id="@+id/textView7"
+        style="@style/TEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="Confirm-password"
-        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/signup_confirm_password"
@@ -66,6 +66,7 @@
 
     <EditText
         android:id="@+id/signup_email"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
@@ -78,8 +79,7 @@
         android:inputType="textEmailAddress"
         android:paddingLeft="10dp"
         android:paddingEnd="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/brown"
+        android:textColorHint="#A4A4A4"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +87,7 @@
 
     <EditText
         android:id="@+id/signup_username"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
@@ -99,8 +100,7 @@
         android:inputType="text"
         android:paddingLeft="10dp"
         android:paddingEnd="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/brown"
+        android:textColorHint="#A4A4A4"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,6 +108,7 @@
 
     <EditText
         android:id="@+id/signup_password"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
@@ -120,8 +121,7 @@
         android:inputType="textPassword"
         android:paddingLeft="10dp"
         android:paddingEnd="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/brown"
+        android:textColorHint="#A4A4A4"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,6 +129,7 @@
 
     <EditText
         android:id="@+id/signup_confirm_password"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
@@ -141,8 +142,7 @@
         android:inputType="textPassword"
         android:paddingLeft="10dp"
         android:paddingEnd="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/brown"
+        android:textColorHint="#A4A4A4"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -150,11 +150,11 @@
 
     <TextView
         android:id="@+id/textView8"
+        style="@style/TEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
         android:text="SignUp"
-        android:textColor="@color/black"
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -15,4 +15,12 @@
     <style name="background">
         <item name="android:background">@color/black</item>
     </style>
+    <style name="bottomnavbar">
+        <item name="android:background">@color/black</item>
+        <item name="itemIconTint">@color/bottom_nav_color_dark</item>
+        <item name="itemTextColor">@color/bottom_nav_color_dark</item>
+    </style>
+    <style name="notbar">
+        <item name="android:statusBarColor">@color/green</item>
+    </style>
 </resources>
