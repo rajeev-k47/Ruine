@@ -1,6 +1,7 @@
 package com.example.ruine
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ class Rvadapter(
 ) : RecyclerView.Adapter<Rvadapter.MyviewHolder>() {
 
     interface OptionsMenuClickListener {
-        fun onOptionsMenuClicked(position: Int)
+        fun onOptionsMenuClicked(position: Int,grp_key:String,GRP_NAME:String,GRP_MAILTAG:String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyviewHolder {
@@ -32,8 +33,12 @@ class Rvadapter(
 //        holder.binding.profile.setImageResource(datalist.get(position).profile)
         holder.binding.name.text = datalist.get(position).name
         holder.binding.gTag.text = datalist.get(position).mail_tag
+        val grp_key = datalist.get(position).grp_id
         holder.binding.menu.setOnClickListener {
-            optionsMenuClickListener.onOptionsMenuClicked(position)
+            if (grp_key != null) {
+                optionsMenuClickListener.onOptionsMenuClicked(position,grp_key,
+                    datalist.get(position).name.toString(),datalist.get(position).mail_tag.toString())
+            }
         }
     }
 
