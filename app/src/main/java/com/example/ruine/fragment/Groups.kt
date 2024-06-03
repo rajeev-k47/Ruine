@@ -1,9 +1,6 @@
 package com.example.ruine.fragment
 
-import android.annotation.SuppressLint
-import android.icu.text.Transliterator.Position
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,11 +11,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar.LayoutParams
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
 import androidx.core.view.get
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ruine.R
 import com.example.ruine.Rvadapter
@@ -41,6 +36,7 @@ class Groups : Fragment() {
     private var datalist = ArrayList<Rvmodel>()
     private lateinit var databaseReference: DatabaseReference
     private lateinit var add_popupwindow: PopupWindow
+    private lateinit var update_add_popupwindow: PopupWindow
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +78,8 @@ class Groups : Fragment() {
                         databaseReference.child("users").child(user.uid).child("groupmail")
                             .push().key
 
-                    val grp_Item = Rvmodel(R.drawable.group, add_group_name, add_group_tag_mail)
+                    val grp_Item =
+                        Rvmodel(R.drawable.group, add_group_name, add_group_tag_mail, GroupKey)
                     if (GroupKey != null) {
                         databaseReference.child("users").child(user.uid).child("groupmail")
                             .child(GroupKey).setValue(grp_Item)
@@ -106,12 +103,8 @@ class Groups : Fragment() {
 
                             }
                     }
-
-
                 }
             }
-
-
         }
         add_cancel.setOnClickListener {
             if (add_popupwindow.isShowing) {
@@ -122,55 +115,109 @@ class Groups : Fragment() {
         val currentuser = auth.currentUser
         currentuser?.let { user ->
             val groupref = databaseReference.child("users").child(user.uid).child("groupmail")
-                groupref.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
+            groupref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
 //                        val grp_list_from_database = mutableListOf<Rvmodel>()
-                        datalist.clear()
-                        for (groups in snapshot.children) {
-
-                            Log.d("abcd","${groups}")
-                            val grps_from_database = groups.getValue(Rvmodel::class.java)
-                            grps_from_database?.let {
-                                datalist.add(it)
-                            }
+                    datalist.clear()
+                    for (groups in snapshot.children) {
+                        val grps_from_database = groups.getValue(Rvmodel::class.java)
+                        grps_from_database?.let {
+                            datalist.add(it)
                         }
+                    }
 //                        Toast.makeText(requireContext(),"${datalist}",Toast.LENGTH_SHORT).show()
-                        binding.rv.layoutManager =
-                            LinearLayoutManager(
-                                requireContext(),
-                                LinearLayoutManager.VERTICAL,
-                                false
-                            )
-                        var adapter =
-                            Rvadapter(datalist, object : Rvadapter.OptionsMenuClickListener {
-                                override fun onOptionsMenuClicked(position: Int) {
-                                    Menuclick(position)
-                                }
-                            })
-                        binding.rv.adapter = adapter
-                    }
+                    binding.rv.layoutManager =
+                        LinearLayoutManager(
+                            requireContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                    datalist.reverse()
+                    var adapter =
+                        Rvadapter(datalist, object : Rvadapter.OptionsMenuClickListener {
+                            override fun onOptionsMenuClicked(
+                                position: Int,
+                                grp_key: String,
+                                GRP_NAME: String,
+                                GRP_MAILTAG: String
+                            ) {
+                                Menuclick(position, grp_key, GRP_NAME, GRP_MAILTAG)
+                            }
+                        })
+                    binding.rv.adapter = adapter
+                }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
-                })
+            })
         }
 
 
     }
 
-    private fun Menuclick(position: Int) {
+    private fun Menuclick(position: Int, grp_key: String, GRP_NAME: String, GRP_MAILTAG: String) {
         val PopupMenu = PopupMenu(requireContext(), binding.rv[position].findViewById(R.id.menu))
         PopupMenu.inflate(R.menu.edit_menu)
         PopupMenu.setOnMenuItemClickListener(object : OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
+                val currentuser = auth.currentUser
                 when (item?.itemId) {
                     R.id.Delete -> {
-
+                        currentuser?.let { user ->
+                            databaseReference.child("users").child(user.uid).child("groupmail")
+                                .child(grp_key).removeValue()
+                        }
                     }
 
                     R.id.Edit -> {
+                        val update_add_view = layoutInflater.inflate(R.layout.update_grp, null)
+                        update_add_popupwindow = PopupWindow(update_add_view, 700, 700)
+
+                        update_add_popupwindow.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
+                        update_add_popupwindow.isFocusable = true
+                        update_add_popupwindow.update()
+
+                        if(update_add_popupwindow.isShowing){
+                            val update_name = update_add_view.findViewById<EditText>(R.id.update_grp_name)
+                            val update_mail_tag =update_add_view.findViewById<EditText>(R.id.update_grp_tag_mail)
+                            val update_cancel =update_add_view.findViewById<Button>(R.id.update_cancel)
+                            val update_update =update_add_view.findViewById<Button>(R.id.update)
+                            update_name.setText(GRP_NAME)
+                            update_mail_tag.setText(GRP_MAILTAG)
+
+                            update_update.setOnClickListener {
+                                currentuser?.let { user ->
+
+                                    val NewDataList = Rvmodel(R.drawable.group,update_name.text.toString(),update_mail_tag.text.toString(),grp_key)
+                                    databaseReference.child("users").child(user.uid).child("groupmail")
+                                        .child(grp_key).setValue(NewDataList)
+                                        .addOnCompleteListener { task->
+                                            if(task.isSuccessful) {
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    "Updated Successfully!!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                update_add_popupwindow.dismiss()
+                                            }
+                                            else{Toast.makeText(
+                                                requireContext(),
+                                                "Something Wrong Occured!!",
+                                                Toast.LENGTH_SHORT
+                                            ).show();update_add_popupwindow.dismiss()}
+                                        }
+                                }
+                            }
+                            update_cancel.setOnClickListener {
+                                update_add_popupwindow.dismiss()
+                            }
+
+
+
+                        }
+
 
                     }
                 }
