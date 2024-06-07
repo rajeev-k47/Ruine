@@ -1,9 +1,11 @@
 package com.example.ruine
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,15 +13,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.PasswordCredential
+import androidx.credentials.PublicKeyCredential
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.lifecycle.lifecycleScope
 import com.example.ruine.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.auth
+import com.google.firebase.database.core.Tag
+import java.security.MessageDigest
+import java.util.UUID
+import kotlinx.coroutines.*
+
 
 class Login : AppCompatActivity() {
 
@@ -27,29 +44,29 @@ class Login : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
     private lateinit var auth: FirebaseAuth
-    private lateinit var googleSigninClient: GoogleSignInClient
-
-    private val launcher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-        { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                if (task.isSuccessful) {
-                    val account: GoogleSignInAccount? = task.result
-                    val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-                    auth.signInWithCredential(credential).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(this, "Successful !!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(this, "Failed!!", Toast.LENGTH_SHORT).show()
-                        }
-
-                    }
-                }
-            } else {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-            }
-        }
+//    private lateinit var googleSigninClient: GoogleSignInClient
+//
+//    private val launcher =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+//        { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+//                if (task.isSuccessful) {
+//                    val account: GoogleSignInAccount? = task.result
+//                    val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
+//                    auth.signInWithCredential(credential).addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            Toast.makeText(this, "Successful !!", Toast.LENGTH_SHORT).show()
+//                        } else {
+//                            Toast.makeText(this, "Failed!!", Toast.LENGTH_SHORT).show()
+//                        }
+//
+//                    }
+//                }
+//            } else {
+//                Toast.makeText(this, "Failed ${result.resultCode}", Toast.LENGTH_SHORT).show()
+//            }
+//        }
 
 
     override fun onStart() {
@@ -65,11 +82,12 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        window.statusBarColor=ContextCompat.getColor(this,R.color.black)
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("460948780073-nicjd08qrsldo1a4n4is9btlepsv3ak0.apps.googleusercontent.com")
-            .requestEmail().build()
-        googleSigninClient = GoogleSignIn.getClient(this, gso)
+
+//        window.statusBarColor=ContextCompat.getColor(this,R.color.black)
+//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken("448403106695-bvthda516oj0rip3mors7dc3pmtgnqlg.apps.googleusercontent.com")
+//            .requestEmail().build()
+//        googleSigninClient = GoogleSignIn.getClient(this, gso)
 
         auth = FirebaseAuth.getInstance()
         binding.btnSignup.setOnClickListener {
@@ -98,10 +116,60 @@ class Login : AppCompatActivity() {
             }
         }
         binding.google.setOnClickListener {
-            val signinclient = googleSigninClient.signInIntent
-            launcher.launch(signinclient)
-        }
+//            val signinclient = googleSigninClient.signInIntent
+//            launcher.launch(signinclient)
+            val credentialManager=CredentialManager.create(this)
 
+            val rawNonce = UUID.randomUUID().toString()
+            val bytes=rawNonce.toByteArray()
+            val md = MessageDigest.getInstance("SHA-256")
+            val digest=md.digest(bytes)
+            val hashedNonce = digest.fold(""){str,it->str+"%02x".format(it)}
+
+//            Log.d("ew", "${bytes},${md},${digest},${hashedNonce}")
+
+            val googleIdOption: GetGoogleIdOption =GetGoogleIdOption.Builder()
+                .setFilterByAuthorizedAccounts(false)
+                .setServerClientId("448403106695-qmmbjaj8f5ns5r3kg45asne0cg3g0ngt.apps.googleusercontent.com")
+                .setNonce(hashedNonce)
+                .build()
+            val request:GetCredentialRequest=GetCredentialRequest.Builder()
+                .addCredentialOption(googleIdOption)
+                .build()
+
+            lifecycleScope.launch{
+                try {
+                    val result =
+                        credentialManager.getCredential(request = request, context = this@Login)
+                    val credential = result.credential
+                    val googleIdTokenCredential =
+                        GoogleIdTokenCredential.createFrom(credential.data)
+                    val googleIdToken = googleIdTokenCredential.idToken
+                    Log.d("TAG", googleIdToken)
+
+                    when {
+                        googleIdToken!=null->{
+                            val fireBaseCredential=GoogleAuthProvider.getCredential(googleIdToken,null)
+//                            auth=Firebase.auth
+                            auth.signInWithCredential(fireBaseCredential)
+                                .addOnCompleteListener(this@Login) { task ->
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(this@Login, "Login Successful !!", Toast.LENGTH_SHORT).show()
+                                        startActivity(Intent(this@Login, MainActivity::class.java))
+                                        finish()
+                                    } else {
+                                        Toast.makeText(this@Login, "Login Failed !!", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                        }else -> {
+                        Toast.makeText(this@Login, "Something Went Wrong!!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }catch (e:GetCredentialException){
+                    Toast.makeText(this@Login, "Credential Failure!!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
     }
 }
