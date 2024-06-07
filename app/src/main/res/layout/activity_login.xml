@@ -10,6 +10,7 @@
 
     <EditText
         android:id="@+id/username"
+        android:isCredential="true"
         style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
@@ -35,6 +36,7 @@
 
     <EditText
         android:id="@+id/password"
+        android:isCredential="true"
         style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
