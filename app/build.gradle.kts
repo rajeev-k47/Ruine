@@ -62,4 +62,15 @@ dependencies {
 
     // Also add the dependency for the Google Play services library and specify its version
     implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("androidx.credentials:credentials:1.3.0-alpha01")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
+
+
+//    implementation ("com.google.api-client:google-api-client:2.0.0")
+//    implementation ("com.google.api-client:google-api-client-gson:1.31.5")
+//    implementation ("com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0")
+//    implementation ("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
 }
