@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:layout_marginBottom="5dp"
     app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,12 +16,14 @@
         <TextView
             android:id="@+id/name"
             style="@style/TEXT"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:text="TextView"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profile"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.253" />
@@ -53,13 +54,14 @@
         <TextView
             android:id="@+id/g_tag"
             style="@style/TEXT"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="25dp"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/name"
-            app:layout_constraintHorizontal_bias="0.411"
-            app:layout_constraintStart_toStartOf="@+id/name"
+            app:layout_constraintEnd_toEndOf="@+id/menu"
+            app:layout_constraintStart_toEndOf="@+id/profile"
             app:layout_constraintTop_toBottomOf="@+id/name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
