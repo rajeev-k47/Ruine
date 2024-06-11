@@ -8,15 +8,36 @@
         android:id="@+id/groups"
         android:name="com.example.ruine.fragment.Groups"
         android:label="fragment_groups"
-        tools:layout="@layout/fragment_groups" />
+        tools:layout="@layout/fragment_groups" >
+        <action
+            android:id="@+id/action_groups_to_mails"
+            app:destination="@id/mails" />
+        <action
+            android:id="@+id/action_groups_to_home"
+            app:destination="@id/home" />
+    </fragment>
     <fragment
         android:id="@+id/home"
         android:name="com.example.ruine.fragment.home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_groups"
+            app:destination="@id/groups" />
+        <action
+            android:id="@+id/action_home_to_mails"
+            app:destination="@id/mails" />
+    </fragment>
     <fragment
         android:id="@+id/mails"
         android:name="com.example.ruine.fragment.mails"
         android:label="fragment_mails"
-        tools:layout="@layout/fragment_mails" />
+        tools:layout="@layout/fragment_mails" >
+        <action
+            android:id="@+id/action_mails_to_groups"
+            app:destination="@id/groups" />
+        <action
+            android:id="@+id/action_mails_to_home"
+            app:destination="@id/home" />
+    </fragment>
 </navigation>
