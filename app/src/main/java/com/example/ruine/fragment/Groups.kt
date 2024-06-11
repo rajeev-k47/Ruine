@@ -27,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class Groups : Fragment() {
-    var group_num = 1
     private val binding: FragmentGroupsBinding by lazy {
         FragmentGroupsBinding.inflate(layoutInflater)
     }
