@@ -67,6 +67,9 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 
+    implementation ("androidx.browser:browser:1.3.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
 
 
 //    implementation ("com.google.api-client:google-api-client:2.0.0")
