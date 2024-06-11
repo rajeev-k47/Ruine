@@ -44,29 +44,6 @@ class Login : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
     private lateinit var auth: FirebaseAuth
-//    private lateinit var googleSigninClient: GoogleSignInClient
-//
-//    private val launcher =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-//        { result ->
-//            if (result.resultCode == Activity.RESULT_OK) {
-//                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-//                if (task.isSuccessful) {
-//                    val account: GoogleSignInAccount? = task.result
-//                    val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-//                    auth.signInWithCredential(credential).addOnCompleteListener {
-//                        if (it.isSuccessful) {
-//                            Toast.makeText(this, "Successful !!", Toast.LENGTH_SHORT).show()
-//                        } else {
-//                            Toast.makeText(this, "Failed!!", Toast.LENGTH_SHORT).show()
-//                        }
-//
-//                    }
-//                }
-//            } else {
-//                Toast.makeText(this, "Failed ${result.resultCode}", Toast.LENGTH_SHORT).show()
-//            }
-//        }
 
 
     override fun onStart() {
@@ -83,11 +60,7 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-//        window.statusBarColor=ContextCompat.getColor(this,R.color.black)
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken("448403106695-bvthda516oj0rip3mors7dc3pmtgnqlg.apps.googleusercontent.com")
-//            .requestEmail().build()
-//        googleSigninClient = GoogleSignIn.getClient(this, gso)
+        window.statusBarColor=ContextCompat.getColor(this,R.color.black)
 
         auth = FirebaseAuth.getInstance()
         binding.btnSignup.setOnClickListener {
@@ -116,8 +89,6 @@ class Login : AppCompatActivity() {
             }
         }
         binding.google.setOnClickListener {
-//            val signinclient = googleSigninClient.signInIntent
-//            launcher.launch(signinclient)
             val credentialManager=CredentialManager.create(this)
 
             val rawNonce = UUID.randomUUID().toString()
