@@ -40,7 +40,7 @@ class mails : Fragment() {
     private var datalist=ArrayList<Rv_mail_model>()
 
     val datePattern = Pattern.compile(
-        "\\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\\d{2} \\w{3}) \\d{4} \\d{2}:\\d{2}:\\d{2}\\b"
+        "\\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\\d{1,2} \\w{3}) \\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2}\\b"
     )
     val TitlePattern = Pattern.compile("([^<]+)")
 
