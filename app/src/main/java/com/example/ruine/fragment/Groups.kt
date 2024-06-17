@@ -36,11 +36,11 @@ class Groups : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var add_popupwindow: PopupWindow
     private lateinit var update_add_popupwindow: PopupWindow
+    private lateinit var groupValueEventListener: ValueEventListener
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         databaseReference = FirebaseDatabase.getInstance().reference
 
         auth = FirebaseAuth.getInstance()
@@ -63,44 +63,29 @@ class Groups : Fragment() {
 
         add_submit.setOnClickListener {
             val add_group_name = add_view.findViewById<EditText>(R.id.grp_name).text.toString()
-            val add_group_tag_mail =
-                add_view.findViewById<EditText>(R.id.grp_tag_mail).text.toString()
+            val add_group_tag_mail = add_view.findViewById<EditText>(R.id.grp_tag_mail).text.toString()
 
             if (add_group_name.isEmpty() || add_group_tag_mail.isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "All the Fields are Required ! ",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), "All the Fields are Required ! ", Toast.LENGTH_SHORT).show()
             } else {
                 val currentuser = auth.currentUser
                 currentuser?.let { user ->
                     //Generate a unique key for the note
-                    val GroupKey =
-                        databaseReference.child("users").child(user.uid).child("groupmail")
-                            .push().key
+                    val GroupKey = databaseReference.child("users").child(user.uid).child("groupmail").push().key
 
-                    val grp_Item =
-                        Rvmodel(R.drawable.group, add_group_name, add_group_tag_mail, GroupKey)
+                    val grp_Item = Rvmodel(R.drawable.group, add_group_name, add_group_tag_mail, GroupKey)
+
                     if (GroupKey != null) {
                         databaseReference.child("users").child(user.uid).child("groupmail")
                             .child(GroupKey).setValue(grp_Item)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Group Created Successfully !",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast.makeText(requireContext(), "Group Created Successfully !", Toast.LENGTH_SHORT).show()
                                     if (add_popupwindow.isShowing) {
                                         add_popupwindow.dismiss()
                                     }
                                 } else {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Something Went Wrong !",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast.makeText(requireContext(), "Something Went Wrong !", Toast.LENGTH_SHORT).show()
                                 }
 
                             }
@@ -117,7 +102,7 @@ class Groups : Fragment() {
         val currentuser = auth.currentUser
         currentuser?.let { user ->
             val groupref = databaseReference.child("users").child(user.uid).child("groupmail")
-            groupref.addValueEventListener(object : ValueEventListener {
+            groupValueEventListener=object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 //                        val grp_list_from_database = mutableListOf<Rvmodel>()
                     datalist.clear()
@@ -135,7 +120,7 @@ class Groups : Fragment() {
                             false
                         )
                     datalist.reverse()
-                    var adapter =
+                    val adapter =
                         Rvadapter(datalist, object : Rvadapter.OptionsMenuClickListener {
                             override fun onOptionsMenuClicked(
                                 position: Int,
@@ -150,10 +135,11 @@ class Groups : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(requireContext(),"Data Fetching Failed!!" ,Toast.LENGTH_SHORT).show()
                 }
 
-            })
+            }
+            groupref.addValueEventListener(groupValueEventListener)
         }
 
 
@@ -244,6 +230,11 @@ class Groups : Fragment() {
 
         if (add_popupwindow.isShowing) {
             add_popupwindow.dismiss()
+        }
+        val currentuser = auth.currentUser
+        currentuser?.let { user ->
+            val groupref = databaseReference.child("users").child(user.uid).child("groupmail")
+            groupref.removeEventListener(groupValueEventListener)
         }
     }
 
