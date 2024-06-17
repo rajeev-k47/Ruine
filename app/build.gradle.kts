@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    kotlin("kapt")
 }
 
 android {
@@ -76,4 +77,15 @@ dependencies {
 //    implementation ("com.google.api-client:google-api-client-gson:1.31.5")
 //    implementation ("com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0")
 //    implementation ("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
+
+
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+    // To use Kotlin Symbol Processing (KSP)
+//    ksp("androidx.room:room-compiler:$room_version")
+
 }
