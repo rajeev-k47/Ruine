@@ -21,11 +21,6 @@ class home : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val nav = findNavController()
-        val bundle=Bundle()
-        bundle.putString("arg","${activity?.intent?.data}")
-        if(activity?.intent?.data!=null){
-        nav.navigate(R.id.action_home_to_mails,bundle)}
 
         binding.logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -43,10 +38,7 @@ class home : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        activity?.intent?.data=null
-    }
+
 
 
 }
