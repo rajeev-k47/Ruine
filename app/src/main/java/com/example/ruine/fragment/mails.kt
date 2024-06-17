@@ -9,12 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.example.ruine.Auth_Redirection
+import com.example.ruine.MailDatabase
+import com.example.ruine.Maildata
 import com.example.ruine.R
 import com.example.ruine.Rv_mail_Adapter
 import com.example.ruine.Rv_mail_model
 import com.example.ruine.databinding.FragmentMailsBinding
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -37,7 +47,9 @@ class mails : Fragment() {
     private lateinit var REFRESH_TOKEN :String
     private lateinit var MESSAGES: JSONArray
     private lateinit var MESSAGE_IDS:MutableList<String>
+    private lateinit var auth: FirebaseAuth
     private var datalist=ArrayList<Rv_mail_model>()
+    lateinit var  database: MailDatabase
 
     val datePattern = Pattern.compile(
         "\\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\\d{1,2} \\w{3}) \\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2}\\b"
@@ -54,32 +66,55 @@ class mails : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth=FirebaseAuth.getInstance()
+        val deeplink=activity?.intent?.data
 
-        val deeplink : Uri? =arguments?.getString("arg")?.toUri()
-        Log.d("deep","${deeplink}")
-        binding.progressBar.visibility=View.INVISIBLE
-        binding.progressFetch.visibility=View.INVISIBLE
-        binding.searhcbar.visibility=View.INVISIBLE
 
-        if(deeplink !=null&&activity?.intent?.data!=null){
-            binding.authGoogle.visibility=View.INVISIBLE
-            binding.searhcbar.visibility=View.VISIBLE
-            binding.progressBar.visibility=View.VISIBLE
-            binding.progressFetch.visibility=View.VISIBLE
-            ACCESS_TOKEN= deeplink.getQueryParameter("access_token")!!
-            REFRESH_TOKEN=deeplink.getQueryParameter("refresh_token")!!
-            activity?.intent?.data=null
-            fetchEmails()
-        }
-        else{
-            binding.rvMail.layoutManager =
-                LinearLayoutManager(
-                    requireContext(),
-                    LinearLayoutManager.VERTICAL,
-                    false
-                )
-            val adapter = Rv_mail_Adapter(datalist)
-            binding.rvMail.adapter = adapter
+        database= Room.databaseBuilder(requireContext(), MailDatabase::class.java,"MailDB").build()
+
+        lifecycleScope.launch {
+            withContext(Dispatchers.Main) {
+                database.mailDao().getData().observe(this@mails, Observer {
+                    val userdata = userdataexist(it)
+
+                    if(!userdata&&deeplink==null){
+                        binding.authGoogle.visibility=View.VISIBLE
+                        binding.progressBar.visibility=View.INVISIBLE
+                        binding.progressFetch.visibility=View.INVISIBLE
+                        binding.searhcbar.visibility=View.INVISIBLE
+                    }
+                    else if(userdata&&deeplink==null){
+                        binding.authGoogle.visibility=View.INVISIBLE
+                        binding.progressBar.visibility=View.INVISIBLE
+                        binding.progressFetch.visibility=View.INVISIBLE
+                        binding.searhcbar.visibility=View.VISIBLE
+
+                        for (item in it){
+                            if(item.Id==auth.currentUser?.uid){
+                            datalist.add(Rv_mail_model(R.drawable.person,item.Title,item.Date,item.Subject))
+                            }
+                        }
+                        binding.rvMail.layoutManager =
+                            LinearLayoutManager(
+                                requireContext(),
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                        val adapter = Rv_mail_Adapter(datalist)
+                        binding.rvMail.adapter = adapter
+                    }
+                    else if(deeplink!=null&&!userdata){
+                        binding.authGoogle.visibility=View.INVISIBLE
+                        binding.searhcbar.visibility=View.VISIBLE
+                        binding.progressBar.visibility=View.VISIBLE
+                        binding.progressFetch.visibility=View.VISIBLE
+                        ACCESS_TOKEN= deeplink.getQueryParameter("access_token")!!
+                        REFRESH_TOKEN=deeplink.getQueryParameter("refresh_token")!!
+                        fetchEmails()
+                        activity?.intent?.data=null
+                    }
+                })
+            }
         }
 
         binding.authGoogle.setOnClickListener {
@@ -110,18 +145,30 @@ class mails : Fragment() {
                     val message = MESSAGES.getJSONObject(i)
                     MESSAGE_IDS.add(message.getString("id"))
                 }
-                Log.d("opopop", "${url + MESSAGE_IDS[1]}")
                 fetchMessagesSequentially(0) // Start fetching messages sequentially
             }
         })
     }
+    private fun userdataexist(list: List<Maildata>):Boolean{
+        for(item in list){
+            if (item.Id==auth.currentUser?.uid){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private fun fetchMessagesSequentially(index: Int) {
-        Log.d("yes","${index},${MESSAGE_IDS.size}")
         binding.progressBar.progress=index
         if (index >= MESSAGE_IDS.size) {
             // All messages fetched, update UI
             activity?.runOnUiThread {
+                lifecycleScope.launch {
+                    withContext(Dispatchers.Main) {
+                        for (item in datalist){
+                        database.mailDao().insertMail(Maildata(0,auth.currentUser?.uid!!, item.mail_title!!, item.mail_date!!, item.mail_snippet!!))
+                        }
+                    }}
                 binding.rvMail.layoutManager =
                     LinearLayoutManager(
                         requireContext(),
@@ -133,7 +180,7 @@ class mails : Fragment() {
                 binding.progressBar.visibility=View.INVISIBLE
                 binding.progressFetch.visibility=View.INVISIBLE
             }
-            return
+return
         }
         val client = OkHttpClient()
         val messagerequest = Request.Builder()
@@ -178,7 +225,10 @@ class mails : Fragment() {
                         }
 
                     }
+
                     datalist.add(Rv_mail_model(R.drawable.person, title, date, subject))
+
+
                 } catch (error: JSONException) {
                     Log.d("Catch", "$error")
                 } finally {
