@@ -6,4 +6,6 @@
   \"include\": \"https://ruine-credentials.onrender.com/.well-known/assetlinks.json\"
 }]
 </string>
+    <string name="client_id">448403106695-qmmbjaj8f5ns5r3kg45asne0cg3g0ngt.apps.googleusercontent.com</string>
+    <string name="client_secret">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</string>
 </resources>
