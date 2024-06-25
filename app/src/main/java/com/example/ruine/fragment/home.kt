@@ -1,18 +1,11 @@
 package com.example.ruine.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.example.ruine.Login
-import com.example.ruine.MainActivity
-import com.example.ruine.R
+import androidx.fragment.app.Fragment
 import com.example.ruine.databinding.FragmentHomeBinding
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 
 class home : Fragment() {
     private val binding: FragmentHomeBinding by lazy {
@@ -21,13 +14,6 @@ class home : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.logout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(requireContext(), Login::class.java))
-            activity?.finish()
-        }
-
     }
 
     override fun onCreateView(
