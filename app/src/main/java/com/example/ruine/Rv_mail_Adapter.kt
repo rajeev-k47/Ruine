@@ -23,6 +23,9 @@ class Rv_mail_Adapter(var dataList: ArrayList<Rv_mail_model>) :RecyclerView.Adap
         holder.binding.mailTitle.text= dataList[position].mail_title
         holder.binding.mailDate.text=dataList[position].mail_date
         holder.binding.mailSnippet.text=dataList[position].mail_snippet
+        if(dataList[position].NewTag==true){
+            holder.binding.New.visibility=View.VISIBLE
+        }
 
     }
 
