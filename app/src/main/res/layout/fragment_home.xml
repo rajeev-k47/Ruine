@@ -5,21 +5,4 @@
     style="@style/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.home">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logout"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:paddingLeft="10dp"
-        android:text="Button"
-        app:backgroundTint="@color/green"
-        app:icon="@drawable/logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".fragment.home"/>
