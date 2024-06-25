@@ -6,4 +6,4 @@ import java.security.KeyPairGenerator
 
 @Entity(tableName = "Mail_Data")
 
-data class Maildata(@PrimaryKey(autoGenerate=true)val Sr:Long, val Id:String?="",val Title: String?="",val Date:String?="",val Subject:String?="")
+data class Maildata(@PrimaryKey(autoGenerate=true)val Sr:Long, val Id:String?="",val messageId:String,val Title: String?="",val Date:String?="",val Subject:String?="")
