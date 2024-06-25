@@ -1,41 +1,24 @@
 package com.example.ruine
 
-import android.app.Activity
-import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
-import androidx.credentials.PasswordCredential
-import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.example.ruine.databinding.ActivityLoginBinding
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
-import com.google.firebase.database.core.Tag
+import kotlinx.coroutines.launch
 import java.security.MessageDigest
 import java.util.UUID
-import kotlinx.coroutines.*
 
 
 class Login : AppCompatActivity() {
@@ -44,7 +27,6 @@ class Login : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
     private lateinit var auth: FirebaseAuth
-
 
     override fun onStart() {
         super.onStart()
@@ -97,11 +79,11 @@ class Login : AppCompatActivity() {
             val digest=md.digest(bytes)
             val hashedNonce = digest.fold(""){str,it->str+"%02x".format(it)}
 
-//            Log.d("ew", "${bytes},${md},${digest},${hashedNonce}")
+            Log.d("new", "${bytes},${md},${digest},${hashedNonce}")
 
             val googleIdOption: GetGoogleIdOption =GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
-                .setServerClientId("448403106695-qmmbjaj8f5ns5r3kg45asne0cg3g0ngt.apps.googleusercontent.com")
+                .setServerClientId(getString(R.string.client_id))
                 .setNonce(hashedNonce)
                 .build()
             val request:GetCredentialRequest=GetCredentialRequest.Builder()
@@ -116,7 +98,6 @@ class Login : AppCompatActivity() {
                     val googleIdTokenCredential =
                         GoogleIdTokenCredential.createFrom(credential.data)
                     val googleIdToken = googleIdTokenCredential.idToken
-                    Log.d("TAG", googleIdToken)
 
                     when {
                         googleIdToken!=null->{
@@ -125,8 +106,9 @@ class Login : AppCompatActivity() {
                             auth.signInWithCredential(fireBaseCredential)
                                 .addOnCompleteListener(this@Login) { task ->
                                     if (task.isSuccessful) {
-                                        Toast.makeText(this@Login, "Login Successful !!", Toast.LENGTH_SHORT).show()
-                                        startActivity(Intent(this@Login, MainActivity::class.java))
+                                        Toast.makeText(this@Login, "Redirecting to OAuth !!", Toast.LENGTH_SHORT).show()
+                                        val intent = Intent(this@Login, Auth_Redirection::class.java)
+                                        startActivity(intent)
                                         finish()
                                     } else {
                                         Toast.makeText(this@Login, "Login Failed !!", Toast.LENGTH_SHORT).show()
