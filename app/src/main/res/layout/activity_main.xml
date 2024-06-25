@@ -24,6 +24,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="55dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -31,4 +32,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:navGraph="@navigation/navigation" />
+
+    <SearchView
+        android:id="@+id/searhcbar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="46dp"
+        android:background="@drawable/searchbar"
+        android:baselineAligned="true"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@null"
+        android:queryHint="Search.."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/Profile_Btn"
+        android:layout_width="50dp"
+        android:layout_height="52dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginEnd="5dp"
+        android:paddingLeft="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/searhcbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/searhcbar"
+        app:layout_constraintTop_toTopOf="@+id/searhcbar"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
