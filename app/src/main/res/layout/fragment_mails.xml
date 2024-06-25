@@ -10,7 +10,6 @@
         android:id="@+id/rv_mail"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,21 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SearchView
-        android:id="@+id/searhcbar"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/searchbar"
-        android:baselineAligned="true"
-        android:iconifiedByDefault="false"
-        android:queryBackground="@null"
-        android:queryHint="Search.."
-        app:layout_constraintBottom_toTopOf="@+id/rv_mail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ProgressBar
         android:id="@+id/progressBar"
