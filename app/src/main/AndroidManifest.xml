@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Ruine"
         tools:targetApi="31">
         <activity
+            android:name=".MailSending"
+            android:exported="false" />
+        <activity
             android:name=".Auth_Redirection"
             android:exported="false" />
         <activity
