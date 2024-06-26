@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
     }
     private  fun register_token(register: String) {
         lifecycleScope.launch {
-            if (register != "undefined") {
+            if (register != "undefined" &&register!="") {
                 Creddatabase.credDao().insertCred(CredData(0, register, auth.currentUser?.uid!!))
             }
         }
@@ -160,6 +160,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun fetchMessagesSequentially(index: Int) {
 
         lifecycleScope.launch {
