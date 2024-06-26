@@ -6,29 +6,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_mail"
-        android:layout_width="0dp"
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
 
-    <Button
-        android:id="@+id/auth_google"
-        style="@style/TEXT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:text="Authorize Google"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_mail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/compose"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_shape"
+        android:elevation="10dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="6dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="6dp"
+        app:backgroundTint="@color/green"
+        app:icon="@drawable/compose"
+        app:iconGravity="start"
+        app:iconPadding="0dp"
+        app:iconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
+        app:layout_constraintEnd_toEndOf="parent" />
     <ProgressBar
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
