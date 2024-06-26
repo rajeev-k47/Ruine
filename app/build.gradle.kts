@@ -6,6 +6,9 @@ plugins {
 }
 
 android {
+//    packagingOptions {
+//        exclude("META-INF/DEPENDENCIES")
+//    }
     namespace = "com.example.ruine"
     compileSdk = 34
     buildFeatures{
@@ -73,13 +76,13 @@ dependencies {
 
 
 
-//    implementation ("com.google.api-client:google-api-client:2.0.0")
+//    implementation (libs.google.api.client)
 //    implementation ("com.google.api-client:google-api-client-gson:1.31.5")
-//    implementation ("com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0")
-//    implementation ("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
+//    implementation (libs.google.api.services.gmail.vv1rev20220404200)
+//    implementation ("com.google.oauth-client:google-oauth-client-jetty:1.34.1")import com.google.api.services.gmail.model.Message
 
 
-    val room_version = "2.6.1"
+
 
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
@@ -88,6 +91,9 @@ dependencies {
     implementation (libs.glide)
     kapt (libs.compiler)
     implementation (libs.glide.transformations)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation (libs.fancytoast)
+    implementation(libs.mail)
     // To use Kotlin Symbol Processing (KSP)
 //    ksp("androidx.room:room-compiler:$room_version")
 
