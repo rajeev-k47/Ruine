@@ -12,15 +12,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.ruine.Auth_Redirection
 import com.example.ruine.CredDatabase
 import com.example.ruine.MailDatabase
+import com.example.ruine.MailSending
 import com.example.ruine.Maildata
 import com.example.ruine.R
 import com.example.ruine.Rv_mail_Adapter
 import com.example.ruine.Rv_mail_model
 import com.example.ruine.databinding.FragmentMailsBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,7 +41,8 @@ import org.json.JSONObject
 import java.util.regex.Pattern
 
 
-class mails : Fragment() {
+class mails : Fragment(){
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val binding:FragmentMailsBinding by lazy {
         FragmentMailsBinding.inflate(layoutInflater)
     }
@@ -68,11 +72,20 @@ class mails : Fragment() {
         super.onCreate(savedInstanceState)
         auth=FirebaseAuth.getInstance()
 
+        swipeRefreshLayout=binding.swipe
+        swipeRefreshLayout.setOnRefreshListener {
+            fetchNewMessages()
+        }
+
         database= Room.databaseBuilder(requireContext(), MailDatabase::class.java,"MailDB").build()
         Creddatabase=Room.databaseBuilder(requireContext(),CredDatabase::class.java,"Cred").build()
-        binding.authGoogle.visibility=View.INVISIBLE
         binding.progressBar.visibility=View.INVISIBLE
         binding.progressFetch.visibility=View.INVISIBLE
+
+        binding.compose.setOnClickListener{
+            activity?.startActivity(Intent(requireContext(),MailSending::class.java))
+//            FancyToast.makeText(requireContext(), "Mail Sent", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.tick, false).show();
+        }
 
         lifecycleScope.launch {
             withContext(Dispatchers.Main) {
@@ -82,7 +95,6 @@ class mails : Fragment() {
                     if(data){
                         for (item in it.reversed()){
                             if(item.Id==auth.currentUser?.uid&&!MessageUpdated){
-                                Log.d("yoyo","yoyolololo")
                                 datalist.add(Rv_mail_model(R.drawable.person,item.messageId,item.Title,item.Date,item.Subject))
                             }
                         }
@@ -93,7 +105,6 @@ class mails : Fragment() {
                     }
                     else{
                         mailViewModel.progress.observe(this@mails, Observer { progress ->
-                            binding.authGoogle.visibility=View.INVISIBLE
                             binding.progressBar.visibility=View.VISIBLE
                             binding.progressFetch.visibility=View.VISIBLE
                             binding.progressBar.progress = progress
@@ -107,10 +118,6 @@ class mails : Fragment() {
             }
         }
 
-        binding.authGoogle.setOnClickListener {
-            val intent = Intent(requireActivity(), Auth_Redirection::class.java)
-            startActivity(intent)
-        }
     }
     private fun userdataexist(list: List<Maildata>):Boolean{
         for(item in list){
@@ -188,7 +195,8 @@ class mails : Fragment() {
                 val index = checkUpdateList(MESSAGES,datalist)
                 Log.d("index","$index")
 //                datalist.clear()
-                if(index>0) fetchMessagesSequentially(0,index,MESSAGES,AccessToken)
+                if(index>0) {fetchMessagesSequentially(0,index,MESSAGES,AccessToken)}
+                else{swipeRefreshLayout.isRefreshing = false}
 
 
             }
@@ -230,6 +238,7 @@ class mails : Fragment() {
                         datalist.add(0,Rv_mail_model(R.drawable.person,item.messageId,item.mail_title,item.mail_date,item.mail_snippet,true))
                     }
                 }}
+            swipeRefreshLayout.isRefreshing = false
             return
         }
         val client = OkHttpClient()
