@@ -126,12 +126,13 @@
 
     <Button
         android:id="@+id/google"
-        android:layout_width="41dp"
-        android:layout_height="45dp"
+        android:layout_width="45dp"
+        android:layout_height="52dp"
         android:layout_marginTop="140dp"
         android:backgroundTint="@color/green"
-        android:paddingLeft="12dp"
+        android:paddingLeft="13dp"
         app:icon="@drawable/google"
+        app:iconSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
