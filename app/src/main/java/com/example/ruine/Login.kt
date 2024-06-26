@@ -9,7 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
 import com.example.ruine.databinding.ActivityLoginBinding
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -27,6 +29,8 @@ class Login : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
     private lateinit var auth: FirebaseAuth
+    lateinit var  Creddatabase: CredDatabase
+
 
     override fun onStart() {
         super.onStart()
@@ -41,6 +45,7 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        Creddatabase= Room.databaseBuilder(this@Login,CredDatabase::class.java,"Cred").build()
 
         window.statusBarColor=ContextCompat.getColor(this,R.color.black)
 
@@ -106,10 +111,22 @@ class Login : AppCompatActivity() {
                             auth.signInWithCredential(fireBaseCredential)
                                 .addOnCompleteListener(this@Login) { task ->
                                     if (task.isSuccessful) {
-                                        Toast.makeText(this@Login, "Redirecting to OAuth !!", Toast.LENGTH_SHORT).show()
-                                        val intent = Intent(this@Login, Auth_Redirection::class.java)
-                                        startActivity(intent)
-                                        finish()
+                                        Creddatabase.credDao().getData().observe(this@Login,
+                                            Observer{
+                                            for (item in it){
+                                                if(item.uid==auth.currentUser?.uid){
+                                                    startActivity(Intent(this@Login,MainActivity::class.java))
+                                                    return@Observer
+                                                }
+                                            }
+                                                Toast.makeText(this@Login, "Redirecting to OAuth !!", Toast.LENGTH_SHORT).show()
+                                                val intent = Intent(this@Login, Auth_Redirection::class.java)
+                                                startActivity(intent)
+                                                finish()
+                                                return@Observer
+
+                                        })
+
                                     } else {
                                         Toast.makeText(this@Login, "Login Failed !!", Toast.LENGTH_SHORT).show()
                                     }
