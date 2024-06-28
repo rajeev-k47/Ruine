@@ -86,6 +86,7 @@ class mails : Fragment(){
             activity?.startActivity(Intent(requireContext(),MailSending::class.java))
 //            FancyToast.makeText(requireContext(), "Mail Sent", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.tick, false).show();
         }
+        binding.LoadMails.visibility=View.VISIBLE
 
         lifecycleScope.launch {
             withContext(Dispatchers.Main) {
@@ -99,11 +100,13 @@ class mails : Fragment(){
                             }
                         }
                         manageAdapter()
+                        binding.LoadMails.visibility=View.GONE
                         if(!MessageUpdated){
                         fetchNewMessages();MessageUpdated=true
                         }
                     }
                     else{
+                        binding.LoadMails.visibility=View.GONE
                         mailViewModel.progress.observe(this@mails, Observer { progress ->
                             binding.progressBar.visibility=View.VISIBLE
                             binding.progressFetch.visibility=View.VISIBLE
