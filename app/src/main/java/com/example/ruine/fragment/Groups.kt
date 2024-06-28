@@ -16,6 +16,7 @@ import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ruine.R
+import com.example.ruine.RvMembersModel
 import com.example.ruine.Rvadapter
 import com.example.ruine.Rvmodel
 import com.example.ruine.databinding.FragmentGroupsBinding
@@ -121,7 +122,7 @@ class Groups : Fragment() {
                         )
                     datalist.reverse()
                     val adapter =
-                        Rvadapter(datalist, object : Rvadapter.OptionsMenuClickListener {
+                        Rvadapter(requireContext(),datalist, object : Rvadapter.OptionsMenuClickListener {
                             override fun onOptionsMenuClicked(
                                 position: Int,
                                 grp_key: String,
@@ -132,6 +133,7 @@ class Groups : Fragment() {
                             }
                         })
                     binding.rv.adapter = adapter
+                    binding.LoadGroups.visibility=View.GONE
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -177,8 +179,9 @@ class Groups : Fragment() {
 
                             update_update.setOnClickListener {
                                 currentuser?.let { user ->
-
-                                    val NewDataList = Rvmodel(R.drawable.group,update_name.text.toString(),update_mail_tag.text.toString(),grp_key)
+                                    val NewDataList = Rvmodel(R.drawable.group,update_name.text.toString(),update_mail_tag.text.toString(),grp_key
+                                    )
+                                    //It will upload a empty string again
                                     databaseReference.child("users").child(user.uid).child("groupmail")
                                         .child(grp_key).setValue(NewDataList)
                                         .addOnCompleteListener { task->
