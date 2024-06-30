@@ -16,7 +16,7 @@ android {
     }
     defaultConfig {
         applicationId = "com.example.ruine"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -58,21 +58,21 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation(libs.firebase.bom)
 
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation("com.google.firebase:firebase-auth")
+    implementation(libs.google.firebase.auth)
 
     // Also add the dependency for the Google Play services library and specify its version
-    implementation("com.google.android.gms:play-services-auth:21.1.1")
-    implementation("androidx.credentials:credentials:1.3.0-alpha01")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation(libs.play.services.auth.v2111)
+    implementation(libs.androidx.credentials)
+    implementation(libs.googleid)
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
 
-    implementation ("androidx.browser:browser:1.3.0")
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation (libs.androidx.browser)
+    implementation(libs.okhttp)
 
 
 
@@ -94,7 +94,9 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation (libs.fancytoast)
     implementation(libs.mail)
-    // To use Kotlin Symbol Processing (KSP)
+    implementation(libs.jxl)
+    implementation("org.apache.poi:poi:5.2.3") // for .xls files
+    implementation("org.apache.poi:poi-ooxml:5.2.3") // for .xlsx files
 //    ksp("androidx.room:room-compiler:$room_version")
 
 
