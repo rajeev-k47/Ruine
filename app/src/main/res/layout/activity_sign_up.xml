@@ -6,7 +6,7 @@
     style="@style/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp">
+    tools:context=".AuthnSetup.SignUp">
 
     <TextView
         android:id="@+id/textView4"
@@ -66,7 +66,6 @@
 
     <EditText
         android:id="@+id/signup_email"
-        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
@@ -87,7 +86,6 @@
 
     <EditText
         android:id="@+id/signup_username"
-        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
@@ -108,7 +106,6 @@
 
     <EditText
         android:id="@+id/signup_password"
-        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
@@ -129,7 +126,6 @@
 
     <EditText
         android:id="@+id/signup_confirm_password"
-        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
