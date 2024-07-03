@@ -5,14 +5,15 @@
     android:id="@+id/group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_marginBottom="3dp"
     android:backgroundTint="@color/CardBackground"
-    app:cardElevation="10dp">
+    app:cardCornerRadius="7dp"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:animateLayoutChanges="true">
 
         <TextView
@@ -47,7 +48,7 @@
             android:layout_height="36dp"
             android:gravity="center"
             android:text="⋮"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

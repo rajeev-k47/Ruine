@@ -2,16 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Ruine" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
     <style name="Theme.Ruine" parent="Base.Theme.Ruine" />
     <style name="TEXT">
         <item name="android:textColor">@color/black</item>
-    </style>
-    <style name="logo_splash">
-        <item name="android:src">@drawable/logo</item>
     </style>
     <style name="background">
         <item name="android:background">@color/white</item>
@@ -20,8 +15,5 @@
         <item name="android:background">@color/white</item>
         <item name="itemIconTint">@color/bottom_nav_color_light</item>
         <item name="itemTextColor">@color/bottom_nav_color_light</item>
-    </style>
-    <style name="popup">
-        <item name="android:background">@drawable/textview_background_light</item>
     </style>
 </resources>

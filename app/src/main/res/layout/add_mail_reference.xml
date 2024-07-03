@@ -8,9 +8,9 @@
     app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/popup"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/dialogboxbg">
 
         <TextView
             android:id="@+id/textView9"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="30dp"
             android:backgroundTint="@color/green"
             android:text="Create"
             android:textColor="#FFFFFF"
@@ -60,17 +60,16 @@
 
         <EditText
             android:id="@+id/grp_name"
-            style="@style/popup"
             android:layout_width="wrap_content"
             android:layout_height="40sp"
             android:layout_marginTop="44dp"
+            android:background="@drawable/textview_background"
             android:ems="10"
             android:inputType="text"
             android:paddingLeft="10sp"
             android:paddingRight="10sp"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,10 +88,10 @@
 
         <EditText
             android:id="@+id/grp_tag_mail"
-            style="@style/popup"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="4dp"
+            android:background="@drawable/textview_background"
             android:ems="10"
             android:inputType="text"
             android:paddingLeft="10sp"
