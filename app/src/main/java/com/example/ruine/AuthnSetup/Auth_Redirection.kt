@@ -1,12 +1,11 @@
-package com.example.ruine
+package com.example.ruine.AuthnSetup
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
+import com.example.ruine.R
 import com.example.ruine.databinding.ActivityAuthRedirectionBinding
 
 class Auth_Redirection : AppCompatActivity() {
@@ -17,6 +16,7 @@ class Auth_Redirection : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        window.statusBarColor= ContextCompat.getColor(this, R.color.black)
 
         val scopes = listOf(
             "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
@@ -30,7 +30,9 @@ class Auth_Redirection : AppCompatActivity() {
         val encodedScopes = scopes.joinToString(separator = "%20") { Uri.encode(it) }
 
 
-        val url = "https://accounts.google.com/o/oauth2/v2/auth?scope=$encodedScopes&access_type=offline&include_granted_scopes=true&prompt=consent&response_type=code&state=state_parameter_passthrough_value&redirect_uri=https://ruine-credentials-chu6.onrender.com/callback&client_id=${getString(R.string.client_id)}&flowName=GeneralOAuthFlow"
+        val url = "https://accounts.google.com/o/oauth2/v2/auth?scope=$encodedScopes&access_type=offline&include_granted_scopes=true&prompt=consent&response_type=code&state=state_parameter_passthrough_value&redirect_uri=https://ruine-credentials-chu6.onrender.com/callback&client_id=${getString(
+            R.string.client_id
+        )}&flowName=GeneralOAuthFlow"
 
         val customTabsIntent = CustomTabsIntent.Builder().build()
         customTabsIntent.launchUrl(this, Uri.parse(url))
