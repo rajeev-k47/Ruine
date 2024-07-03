@@ -1,4 +1,4 @@
-package com.example.ruine
+package com.example.ruine.AuthnSetup
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,9 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import com.example.ruine.DatabaseHandler.CredDatabase
+import com.example.ruine.MainActivity
+import com.example.ruine.R
 import com.example.ruine.databinding.ActivityLoginBinding
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -45,9 +48,9 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        Creddatabase= Room.databaseBuilder(this@Login,CredDatabase::class.java,"Cred").build()
+        Creddatabase= Room.databaseBuilder(this@Login, CredDatabase::class.java,"Cred").build()
 
-        window.statusBarColor=ContextCompat.getColor(this,R.color.black)
+        window.statusBarColor=ContextCompat.getColor(this, R.color.black)
 
         auth = FirebaseAuth.getInstance()
         binding.btnSignup.setOnClickListener {
@@ -115,7 +118,7 @@ class Login : AppCompatActivity() {
                                             Observer{
                                             for (item in it){
                                                 if(item.uid==auth.currentUser?.uid){
-                                                    startActivity(Intent(this@Login,MainActivity::class.java))
+                                                    startActivity(Intent(this@Login, MainActivity::class.java))
                                                     return@Observer
                                                 }
                                             }

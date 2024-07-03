@@ -1,4 +1,4 @@
-package com.example.ruine
+package com.example.ruine.Adapters
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ruine.R
+import com.example.ruine.Rvmodels.Rvmodel
 import com.example.ruine.databinding.DemoGroupsLayoutBinding
 import com.shashank.sony.fancytoastlib.FancyToast
 
@@ -43,11 +45,12 @@ class Rvadapter(
             }
         }
         holder.binding.group.setOnClickListener{
-            val intent =Intent(context,com.example.ruine.ViewGroup::class.java)
+            val intent =Intent(context, com.example.ruine.ViewGroup::class.java)
             intent.putExtra("GrpName","${holder.binding.name.text}")
             intent.putExtra("GrpKey","${grp_key}")
             context.startActivity(intent)
-            FancyToast.makeText(context, "$position", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.tick, false).show();
+            FancyToast.makeText(context, "$position", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,
+                R.drawable.tick, false).show();
         }
     }
 

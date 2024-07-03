@@ -1,16 +1,18 @@
-package com.example.ruine
+package com.example.ruine.Adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ruine.R
+import com.example.ruine.Rvmodels.Rv_mail_model
 import com.example.ruine.databinding.DemoMailLayoutBinding
 
 class Rv_mail_Adapter(var dataList: ArrayList<Rv_mail_model>) :RecyclerView.Adapter<Rv_mail_Adapter.MyviewHolder>(){
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Rv_mail_Adapter.MyviewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyviewHolder {
         var binding =
             DemoMailLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyviewHolder(binding)

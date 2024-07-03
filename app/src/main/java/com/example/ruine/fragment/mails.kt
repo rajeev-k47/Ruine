@@ -13,21 +13,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.ruine.Auth_Redirection
-import com.example.ruine.CredDatabase
-import com.example.ruine.MailDatabase
+import com.example.ruine.DatabaseHandler.CredDatabase
+import com.example.ruine.DatabaseHandler.MailDatabase
 import com.example.ruine.MailSending
-import com.example.ruine.Maildata
+import com.example.ruine.DatabaseHandler.Maildata
 import com.example.ruine.R
-import com.example.ruine.Rv_mail_Adapter
-import com.example.ruine.Rv_mail_model
+import com.example.ruine.Adapters.Rv_mail_Adapter
+import com.example.ruine.Rvmodels.Rv_mail_model
 import com.example.ruine.databinding.FragmentMailsBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import mailViewModel
+import com.example.ruine.viewModels.mailViewModel
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
@@ -78,7 +76,7 @@ class mails : Fragment(){
         }
 
         database= Room.databaseBuilder(requireContext(), MailDatabase::class.java,"MailDB").build()
-        Creddatabase=Room.databaseBuilder(requireContext(),CredDatabase::class.java,"Cred").build()
+        Creddatabase=Room.databaseBuilder(requireContext(), CredDatabase::class.java,"Cred").build()
         binding.progressBar.visibility=View.INVISIBLE
         binding.progressFetch.visibility=View.INVISIBLE
 
@@ -238,7 +236,9 @@ class mails : Fragment(){
                 withContext(Dispatchers.Main) {
                     for (item in Newdatalist){
                         database.mailDao().insertMail(Maildata(0,auth.currentUser?.uid!!,item.messageId,item.mail_title!!, item.mail_date!!, item.mail_snippet!!))
-                        datalist.add(0,Rv_mail_model(R.drawable.person,item.messageId,item.mail_title,item.mail_date,item.mail_snippet,true))
+                        datalist.add(0,
+                            Rv_mail_model(R.drawable.person,item.messageId,item.mail_title,item.mail_date,item.mail_snippet,true)
+                        )
                     }
                 }}
             swipeRefreshLayout.isRefreshing = false

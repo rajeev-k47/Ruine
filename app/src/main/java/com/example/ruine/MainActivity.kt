@@ -17,6 +17,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.room.Room
 import com.bumptech.glide.Glide
+import com.example.ruine.DatabaseHandler.CredData
+import com.example.ruine.DatabaseHandler.CredDatabase
+import com.example.ruine.DatabaseHandler.MailDatabase
+import com.example.ruine.DatabaseHandler.Maildata
+import com.example.ruine.Rvmodels.Rv_mail_model
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -24,7 +29,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import mailViewModel
+import com.example.ruine.viewModels.mailViewModel
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -60,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         database= Room.databaseBuilder(this@MainActivity, MailDatabase::class.java,"MailDB").build()
-        Creddatabase=Room.databaseBuilder(this@MainActivity,CredDatabase::class.java,"Cred").build()
+        Creddatabase=Room.databaseBuilder(this@MainActivity, CredDatabase::class.java,"Cred").build()
 
         auth=FirebaseAuth.getInstance()
 
