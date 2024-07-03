@@ -6,17 +6,17 @@
     style="@style/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".AuthnSetup.Login">
 
     <EditText
         android:id="@+id/username"
-        style="@style/popup"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="324dp"
         android:layout_marginRight="15dp"
         android:width="300dp"
+        android:background="@drawable/textview_background"
         android:elevation="10dp"
         android:ems="10"
         android:hint="Email"
@@ -35,13 +35,13 @@
 
     <EditText
         android:id="@+id/password"
-        style="@style/popup"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="36dp"
         android:layout_marginRight="15dp"
         android:width="300dp"
+        android:background="@drawable/textview_background"
         android:elevation="10dp"
         android:ems="10"
         android:hint="Password"
@@ -124,20 +124,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.068" />
 
-    <Button
+    <ImageView
         android:id="@+id/google"
-        android:layout_width="45dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="140dp"
-        android:backgroundTint="@color/green"
-        android:paddingLeft="13dp"
-        app:icon="@drawable/google"
-        app:iconSize="20dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.406"
+        app:srcCompat="@drawable/google" />
+
+    <TextView
+        android:id="@+id/textView14"
+        style="@style/TEXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="or"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/google"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.817" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
