@@ -1,7 +1,7 @@
 package com.example.ruine.fragment
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -9,17 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ruine.R
-import com.example.ruine.RvMembersModel
-import com.example.ruine.Rvadapter
-import com.example.ruine.Rvmodel
+import com.example.ruine.Adapters.Rvadapter
+import com.example.ruine.Rvmodels.Rvmodel
 import com.example.ruine.databinding.FragmentGroupsBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -32,11 +33,8 @@ class Groups : Fragment() {
         FragmentGroupsBinding.inflate(layoutInflater)
     }
     private lateinit var auth: FirebaseAuth
-    private lateinit var rvAdapter: Rvadapter
     private var datalist = ArrayList<Rvmodel>()
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var add_popupwindow: PopupWindow
-    private lateinit var update_add_popupwindow: PopupWindow
     private lateinit var groupValueEventListener: ValueEventListener
 
 
@@ -46,59 +44,31 @@ class Groups : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
-        val add_view = layoutInflater.inflate(R.layout.add_mail_reference, null)
-        val add_submit = add_view.findViewById<Button>(R.id.create)
-        val add_cancel = add_view.findViewById<Button>(R.id.add_cancel)
+
 //========================================================================================//
-        add_popupwindow = PopupWindow(add_view, 700, 700)
 
         binding.add.setOnClickListener {
-            add_popupwindow.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
-            add_popupwindow.isFocusable = true
-            add_popupwindow.update()
+            val add_view = layoutInflater.inflate(R.layout.add_mail_reference, null)
+            val add_submit = add_view.findViewById<Button>(R.id.create)
+            val add_cancel = add_view.findViewById<Button>(R.id.add_cancel)
 
             add_view.findViewById<EditText>(R.id.grp_name).setText("")
             add_view.findViewById<EditText>(R.id.grp_tag_mail).setText("")
-
-        }
-
-        add_submit.setOnClickListener {
-            val add_group_name = add_view.findViewById<EditText>(R.id.grp_name).text.toString()
-            val add_group_tag_mail = add_view.findViewById<EditText>(R.id.grp_tag_mail).text.toString()
-
-            if (add_group_name.isEmpty() || add_group_tag_mail.isEmpty()) {
-                Toast.makeText(requireContext(), "All the Fields are Required ! ", Toast.LENGTH_SHORT).show()
-            } else {
-                val currentuser = auth.currentUser
-                currentuser?.let { user ->
-                    //Generate a unique key for the note
-                    val GroupKey = databaseReference.child("users").child(user.uid).child("groupmail").push().key
-
-                    val grp_Item = Rvmodel(R.drawable.group, add_group_name, add_group_tag_mail, GroupKey)
-
-                    if (GroupKey != null) {
-                        databaseReference.child("users").child(user.uid).child("groupmail")
-                            .child(GroupKey).setValue(grp_Item)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(requireContext(), "Group Created Successfully !", Toast.LENGTH_SHORT).show()
-                                    if (add_popupwindow.isShowing) {
-                                        add_popupwindow.dismiss()
-                                    }
-                                } else {
-                                    Toast.makeText(requireContext(), "Something Went Wrong !", Toast.LENGTH_SHORT).show()
-                                }
-
-                            }
-                    }
-                }
+            val DailogCreateGroup= MaterialAlertDialogBuilder(requireContext())
+                .setView(add_view)
+                .create()
+            add_cancel.setOnClickListener {
+                DailogCreateGroup.dismiss()
             }
+            add_submit.setOnClickListener {addGroup(add_view,DailogCreateGroup)}
+
+            DailogCreateGroup.show()
+
         }
-        add_cancel.setOnClickListener {
-            if (add_popupwindow.isShowing) {
-                add_popupwindow.dismiss()
-            }
-        }
+
+
+
+
         //=================================================================================//
         val currentuser = auth.currentUser
         currentuser?.let { user ->
@@ -113,7 +83,6 @@ class Groups : Fragment() {
                             datalist.add(it)
                         }
                     }
-//                        Toast.makeText(requireContext(),"${datalist}",Toast.LENGTH_SHORT).show()
                     binding.rv.layoutManager =
                         LinearLayoutManager(
                             requireContext(),
@@ -137,7 +106,12 @@ class Groups : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(),"Data Fetching Failed!!" ,Toast.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(), "Data Fetching Failed!!", Snackbar.LENGTH_SHORT)
+                        .setAction("Ok"){}
+                        .setBackgroundTint(resources.getColor(R.color.brown))
+                        .setTextColor(Color.WHITE)
+                        .show()
+//                    Toast.makeText(requireContext(),"Data Fetching Failed!!" ,Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -163,13 +137,13 @@ class Groups : Fragment() {
 
                     R.id.Edit -> {
                         val update_add_view = layoutInflater.inflate(R.layout.update_grp, null)
-                        update_add_popupwindow = PopupWindow(update_add_view, 700, 700)
+                        val DailogEditGroup= MaterialAlertDialogBuilder(requireContext())
+                            .setView(update_add_view)
+                            .create()
 
-                        update_add_popupwindow.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
-                        update_add_popupwindow.isFocusable = true
-                        update_add_popupwindow.update()
+                        DailogEditGroup.show()
 
-                        if(update_add_popupwindow.isShowing){
+                        if(DailogEditGroup.isShowing){
                             val update_name = update_add_view.findViewById<EditText>(R.id.update_grp_name)
                             val update_mail_tag =update_add_view.findViewById<EditText>(R.id.update_grp_tag_mail)
                             val update_cancel =update_add_view.findViewById<Button>(R.id.update_cancel)
@@ -186,23 +160,36 @@ class Groups : Fragment() {
                                         .child(grp_key).setValue(NewDataList)
                                         .addOnCompleteListener { task->
                                             if(task.isSuccessful) {
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    "Updated Successfully!!",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                update_add_popupwindow.dismiss()
+                                                Snackbar.make(requireView(), "Updated Successfully!!", Snackbar.LENGTH_SHORT)
+                                                    .setAction("Ok"){}
+                                                    .setBackgroundTint(resources.getColor(R.color.SnackBar))
+                                                    .setTextColor(Color.WHITE)
+                                                    .show()
+//                                                Toast.makeText(
+//                                                    requireContext(),
+//                                                    "Updated Successfully!!",
+//                                                    Toast.LENGTH_SHORT
+//                                                ).show()
+                                                DailogEditGroup.dismiss()
                                             }
-                                            else{Toast.makeText(
-                                                requireContext(),
-                                                "Something Wrong Occured!!",
-                                                Toast.LENGTH_SHORT
-                                            ).show();update_add_popupwindow.dismiss()}
+                                            else{
+                                                Snackbar.make(requireView(), "Something Wrong Occured!!", Snackbar.LENGTH_SHORT)
+                                                    .setAction("Ok"){}
+                                                    .setBackgroundTint(resources.getColor(R.color.SnackBar))
+                                                    .setTextColor(Color.WHITE)
+                                                    .show()
+
+//                                                Toast.makeText(
+//                                                requireContext(),
+//                                                "Something Wrong Occured!!",
+//                                                Toast.LENGTH_SHORT
+//                                            ).show()
+                                                ;DailogEditGroup.dismiss()}
                                         }
                                 }
                             }
                             update_cancel.setOnClickListener {
-                                update_add_popupwindow.dismiss()
+                                DailogEditGroup.dismiss()
                             }
 
 
@@ -220,6 +207,48 @@ class Groups : Fragment() {
 
 
     }
+    private fun addGroup(add_view: View,Dialog:AlertDialog){
+        val add_group_name = add_view.findViewById<EditText>(R.id.grp_name).text.toString()
+        val add_group_tag_mail = add_view.findViewById<EditText>(R.id.grp_tag_mail).text.toString()
+
+        if (add_group_name.isEmpty() || add_group_tag_mail.isEmpty()) {
+            Toast.makeText(requireContext(), "All the Fields are Required ! ", Toast.LENGTH_SHORT).show()
+        } else {
+            val currentuser = auth.currentUser
+            currentuser?.let { user ->
+                //Generate a unique key for the note
+                val GroupKey = databaseReference.child("users").child(user.uid).child("groupmail").push().key
+
+                val grp_Item = Rvmodel(R.drawable.group, add_group_name, add_group_tag_mail, GroupKey)
+
+                if (GroupKey != null) {
+                    databaseReference.child("users").child(user.uid).child("groupmail")
+                        .child(GroupKey).setValue(grp_Item)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Snackbar.make(requireView(), "Group Created Successfully !", Snackbar.LENGTH_SHORT)
+                                    .setAction("Ok"){}
+                                    .setBackgroundTint(resources.getColor(R.color.SnackBar))
+                                    .setTextColor(Color.WHITE)
+                                    .show()
+//                                Toast.makeText(requireContext(), "Group Created Successfully !", Toast.LENGTH_SHORT).show()
+                                if (Dialog.isShowing) {
+                                    Dialog.dismiss()
+                                }
+                            } else {
+//                                Toast.makeText(requireContext(), "Something Went Wrong !", Toast.LENGTH_SHORT).show()
+                                Snackbar.make(requireView(), "Something Went Wrong !", Snackbar.LENGTH_SHORT)
+                                    .setAction("Ok"){}
+                                    .setBackgroundTint(resources.getColor(R.color.SnackBar))
+                                    .setTextColor(Color.WHITE)
+                                    .show()
+                            }
+
+                        }
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -231,9 +260,6 @@ class Groups : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        if (add_popupwindow.isShowing) {
-            add_popupwindow.dismiss()
-        }
         val currentuser = auth.currentUser
         currentuser?.let { user ->
             val groupref = databaseReference.child("users").child(user.uid).child("groupmail")
