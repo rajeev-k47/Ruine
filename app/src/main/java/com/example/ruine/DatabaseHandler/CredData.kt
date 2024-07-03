@@ -1,4 +1,4 @@
-package com.example.ruine
+package com.example.ruine.DatabaseHandler
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

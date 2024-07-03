@@ -1,8 +1,7 @@
-package com.example.ruine
+package com.example.ruine.DatabaseHandler
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.security.KeyPairGenerator
 
 @Entity(tableName = "Mail_Data")
 

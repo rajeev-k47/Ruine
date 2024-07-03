@@ -1,4 +1,4 @@
-package com.example.ruine
+package com.example.ruine.DatabaseHandler
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -10,11 +10,11 @@ import androidx.room.Update
 @Dao
 interface CredentialDao {
     @Insert
-    suspend fun insertCred(data:CredData)
+    suspend fun insertCred(data: CredData)
     @Update
-    suspend fun UpdateCred(data:CredData)
+    suspend fun UpdateCred(data: CredData)
     @Delete
-    suspend fun DeleteCred(data:CredData)
+    suspend fun DeleteCred(data: CredData)
 
     @Query("SELECT * FROM cred_list")
     fun getData(): LiveData<List<CredData>>

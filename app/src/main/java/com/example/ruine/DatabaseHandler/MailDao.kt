@@ -1,4 +1,4 @@
-package com.example.ruine
+package com.example.ruine.DatabaseHandler
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -10,11 +10,11 @@ import androidx.room.Update
 @Dao
 interface MailDao {
     @Insert
-    suspend fun insertMail(data:Maildata)
+    suspend fun insertMail(data: Maildata)
     @Update
-    suspend fun UpdateMail(data:Maildata)
+    suspend fun UpdateMail(data: Maildata)
     @Delete
-    suspend fun DeleteMail(data:Maildata)
+    suspend fun DeleteMail(data: Maildata)
 
     @Query("SELECT * FROM mail_data")
     fun getData():LiveData<List<Maildata>>
