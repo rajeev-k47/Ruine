@@ -63,13 +63,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            app:tint="@color/green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/MemberName"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.487"
+            app:layout_constraintVertical_bias="0.222"
             app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        <ImageView
+            android:id="@+id/addMemberCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/MemberMail"
+            app:layout_constraintTop_toBottomOf="@+id/addMember"
+            app:srcCompat="@drawable/cross" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
