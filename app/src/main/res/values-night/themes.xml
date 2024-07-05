@@ -15,4 +15,8 @@
         <item name="itemIconTint">@color/bottom_nav_color_dark</item>
         <item name="itemTextColor">@color/bottom_nav_color_dark</item>
     </style>
+    <style name="iconTint">
+        <item name="iconTint">@color/white</item>
+        <item name="backgroundTint">@color/black</item>
+    </style>
 </resources>
