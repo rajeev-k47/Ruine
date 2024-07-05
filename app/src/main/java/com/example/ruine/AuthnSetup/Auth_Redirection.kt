@@ -25,7 +25,9 @@ class Auth_Redirection : AppCompatActivity() {
             "https://www.googleapis.com/auth/gmail.readonly",
             "https://www.googleapis.com/auth/gmail.send",
             "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
-            "https://www.googleapis.com/auth/gmail.addons.current.message.metadata"
+            "https://www.googleapis.com/auth/gmail.addons.current.message.metadata",
+            "https://www.googleapis.com/auth/meetings.space.created",
+            "https://www.googleapis.com/auth/meetings.space.readonly"
         )
         val encodedScopes = scopes.joinToString(separator = "%20") { Uri.encode(it) }
 
