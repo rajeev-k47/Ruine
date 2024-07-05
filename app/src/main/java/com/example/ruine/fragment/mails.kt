@@ -55,7 +55,8 @@ class mails : Fragment(){
     var MessageUpdated=false
 
     val datePattern = Pattern.compile(
-        "\\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\\d{1,2} \\w{3}) \\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2}\\b"
+//        "(\\d{1,2} \\w{3}) \\d{4}"
+        "(\\d{1,2}) (\\w{3})"
     )
     val TitlePattern = Pattern.compile("([^<]+)")
 
@@ -72,7 +73,8 @@ class mails : Fragment(){
 
         swipeRefreshLayout=binding.swipe
         swipeRefreshLayout.setOnRefreshListener {
-            fetchNewMessages()
+            if(MessageUpdated){
+            fetchNewMessages()}else{swipeRefreshLayout.isRefreshing=false}
         }
 
         database= Room.databaseBuilder(requireContext(), MailDatabase::class.java,"MailDB").build()
@@ -100,7 +102,7 @@ class mails : Fragment(){
                         manageAdapter()
                         binding.LoadMails.visibility=View.GONE
                         if(!MessageUpdated){
-                        fetchNewMessages();MessageUpdated=true
+                        fetchNewMessages();
                         }
                     }
                     else{
@@ -197,7 +199,7 @@ class mails : Fragment(){
                 Log.d("index","$index")
 //                datalist.clear()
                 if(index>0) {fetchMessagesSequentially(0,index,MESSAGES,AccessToken)}
-                else{swipeRefreshLayout.isRefreshing = false}
+                else{swipeRefreshLayout.isRefreshing = false;MessageUpdated=true}
 
 
             }
@@ -211,7 +213,7 @@ class mails : Fragment(){
                 LinearLayoutManager.VERTICAL,
                 false
             )
-        val adapter = Rv_mail_Adapter(datalist)
+        val adapter = Rv_mail_Adapter(datalist,requireContext())
         binding.rvMail.adapter = adapter
     }
     private fun checkUpdateList(messages:JSONArray, itemList:ArrayList<Rv_mail_model>):Int{
@@ -231,7 +233,7 @@ class mails : Fragment(){
 
 
         if (index >= mIndex) {
-
+            MessageUpdated=true
             lifecycleScope.launch {
                 withContext(Dispatchers.Main) {
                     for (item in Newdatalist){
@@ -270,7 +272,9 @@ class mails : Fragment(){
                             date = header.getJSONObject(i).getString("value")
                             val matcher = datePattern.matcher(date)
                             if (matcher.find()) {
-                                date = matcher.group(1)
+                                val day = matcher.group(1).toInt().toString()
+                                val month = matcher.group(2)
+                                date = "$day $month"
                             }
                         }
 
@@ -283,7 +287,7 @@ class mails : Fragment(){
                             val matcher = TitlePattern.matcher(title)
                             if (matcher.find()) {
                                 title = matcher.group(1).trim()
-                            }
+                            }else{date=""}
                         }
 
                     }
