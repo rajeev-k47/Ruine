@@ -23,6 +23,6 @@ class Splash_screen : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, Login::class.java))
             finish()
-        }, 1000)
+        }, 300)
     }
 }
