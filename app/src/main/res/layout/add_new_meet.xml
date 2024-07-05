@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/iconTint"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="40dp"
+    app:cardElevation="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dialogboxbg">
+
+        <TextView
+            android:id="@+id/rdrd"
+            style="@style/TEXT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Meeting Subject"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/meetSubject"
+            app:layout_constraintEnd_toEndOf="@+id/meetSubject"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/meetSubject"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/choosetime"
+            style="@style/iconTint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:drawableTint="#00FFFFFF"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:icon="@drawable/clock"
+            app:iconPadding="0dp"
+            app:iconSize="40dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textrdrd"
+            app:layout_constraintStart_toEndOf="@+id/textrdrd"
+            app:layout_constraintTop_toTopOf="@+id/textrdrd" />
+
+        <Button
+            android:id="@+id/meetcreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/green"
+            android:text="Create"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.26"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textrdrd"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/meetcreatecancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/green"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.016"
+            app:layout_constraintStart_toEndOf="@+id/meetcreate" />
+
+        <EditText
+            android:id="@+id/meetSubject"
+            android:layout_width="wrap_content"
+            android:layout_height="40sp"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/textview_background"
+            android:ems="10"
+            android:inputType="text"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textrdrd"
+            style="@style/TEXT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Time :"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/meetSubject"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/meetSubject"
+            app:layout_constraintTop_toBottomOf="@+id/meetSubject" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
