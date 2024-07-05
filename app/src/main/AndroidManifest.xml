@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -20,9 +19,12 @@
         android:theme="@style/Theme.Ruine"
         tools:targetApi="31">
         <activity
-            android:name=".ViewGroup"
-            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:name=".ViewMail"
             android:exported="false" />
+        <activity
+            android:name=".ViewGroup"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".MailSending"
             android:exported="false" />
