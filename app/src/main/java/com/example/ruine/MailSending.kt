@@ -1,17 +1,18 @@
 package com.example.ruine
 
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import com.example.ruine.DatabaseHandler.CredDatabase
+import com.example.ruine.Rvmodels.RvMembersModel
+import com.example.ruine.Rvmodels.Rvmodel
 import com.example.ruine.databinding.ActivityMailSendingBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -42,6 +43,7 @@ class MailSending : AppCompatActivity() {
     lateinit var  Creddatabase: CredDatabase
     private lateinit var databaseReference: DatabaseReference
     private lateinit var groupValueEventListener: ValueEventListener
+    private lateinit var memberEventListener: ValueEventListener
     private val suggestions = mutableListOf<String>()
 
     lateinit var auth:FirebaseAuth
@@ -51,7 +53,7 @@ class MailSending : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        Creddatabase= Room.databaseBuilder(this,CredDatabase::class.java,"Cred").build()
+        Creddatabase= Room.databaseBuilder(this, CredDatabase::class.java,"Cred").build()
         databaseReference = FirebaseDatabase.getInstance().reference
 
         auth=FirebaseAuth.getInstance()
@@ -69,9 +71,10 @@ class MailSending : AppCompatActivity() {
                 if(isGmailAddress(To.text.toString())){
                 sendMail(To.text.toString(),subject.text.toString(),context.text.toString())}
             else{
-//                TODO("Multiple Messages Sending")
-            }
+                    if(verifyGroup(To.text.toString())){
+                     sendMultipleMessages(To.text.toString(),subject.text.toString(),context.text.toString()) }
 
+            }
             }
         }
         val currentuser = auth.currentUser
@@ -97,14 +100,12 @@ class MailSending : AppCompatActivity() {
 
         val adapter =ArrayAdapter(this,android.R.layout.simple_dropdown_item_1line,suggestions)
         To.setAdapter(adapter)
-
         To.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position).toString()
             To.setText(selectedItem)
         }
 
     }
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun sendMail( To:String, Subject:String, Context:String){
         val emailContent = "To: $To\r\n" +
                 "Subject: $Subject\r\n" +
@@ -164,6 +165,14 @@ class MailSending : AppCompatActivity() {
             }
         }
     }
+    private fun verifyGroup(groupName:String):Boolean{
+        for(groups in suggestions){
+            if(groupName==groups){
+                return true
+            }
+        }
+        return false
+    }
     private fun sendMessaage(accessToken:String,payload:JSONObject){
         val requestBody = payload.toString().toRequestBody("application/json".toMediaTypeOrNull())
         val request = Request.Builder()
@@ -183,7 +192,6 @@ class MailSending : AppCompatActivity() {
                 if (response.isSuccessful) {
                     showFailureToast("Email Sent !!")
                     println("Email sent successfully")
-                    finish()
                 } else {
                     println("Failed to send email: ${response.code} - ${response.message}")
                 }
@@ -197,9 +205,39 @@ class MailSending : AppCompatActivity() {
         }
     }
     fun isGmailAddress(email: String): Boolean {
-        val regex = Regex("^[A-Za-z0-9._%+-]+@gmail\\.com$")
+        val regex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
         return regex.matches(email)
     }
+    private fun sendMultipleMessages(Gname: String,Subject: String,Context: String) {
+        val currentUser = auth.currentUser
+        currentUser?.let { user ->
+            val membRef = databaseReference.child("users").child(user.uid).child("groupmail")
+            memberEventListener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (groups in snapshot.children) {
+                        val groupName = groups.child("name").getValue(String::class.java)
+                        groupName?.let {
+                            if (it == Gname) {
+                                val membersSnapshot = groups.child("members")
+                                for (member in membersSnapshot.children) {
+                                    val memberName = member.getValue(RvMembersModel::class.java)
+                                    memberName?.let { name ->
+                                        Log.d("dies","$memberName")
+                                        sendMail(name.MemberMail!!,Subject,Context)
+                                    }
+                                }
+                                binding.LoadSendEmail.visibility = View.GONE
+                                finish()
+                            }
+                        }
+                    }
+                }
 
-
-}
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@MailSending, "Data Fetching Failed!!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+            membRef.addValueEventListener(memberEventListener)
+        }
+    }}
