@@ -1,6 +1,7 @@
 package com.example.ruine
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -17,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.room.Room
 import com.bumptech.glide.Glide
+import com.example.ruine.AuthnSetup.Login
 import com.example.ruine.DatabaseHandler.CredData
 import com.example.ruine.DatabaseHandler.CredDatabase
 import com.example.ruine.DatabaseHandler.MailDatabase
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var MESSAGE_IDS:MutableList<String>
     private var datalist=ArrayList<Rv_mail_model>()
     val datePattern = Pattern.compile(
-        "\\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\\d{1,2} \\w{3}) \\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2}\\b"
+        "(\\d{1,2}) (\\w{3})"
     )
     val TitlePattern = Pattern.compile("([^<]+)")
 
@@ -112,7 +114,10 @@ class MainActivity : AppCompatActivity() {
                         if(deeplink!=null && userdata){
 
                         }
-                        else if(deeplink==null && userdata){
+                        else if(deeplink==null && !userdata){
+                            startActivity(Intent(this@MainActivity,Login::class.java))
+                            auth.signOut()
+                            finish()
 
                         }
                         else if(deeplink!=null && !userdata){
@@ -210,8 +215,10 @@ class MainActivity : AppCompatActivity() {
                             date = header.getJSONObject(i).getString("value")
                             val matcher = datePattern.matcher(date)
                             if (matcher.find()) {
-                                date = matcher.group(1)
-                            }
+                                val day = matcher.group(1).toInt().toString()
+                                val month = matcher.group(2)
+                                date = "$day $month"
+                            }else{date=""}
                         }
 
                         if (header.getJSONObject(i).getString("name") == "Subject") {
