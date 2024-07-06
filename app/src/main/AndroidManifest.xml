@@ -56,9 +56,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="https" />
-                <data android:host="ruine-credentials-chu6.onrender.com" />
-                <data android:pathPattern="/getAuth" />
+                <data
+                    android:scheme="https"
+                    android:host="ruine-credentials-chu6.onrender.com"
+                    android:pathPrefix="/getAuth"/>
             </intent-filter>
         </activity>
     </application>
