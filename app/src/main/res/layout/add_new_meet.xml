@@ -49,7 +49,7 @@
             android:id="@+id/meetcreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="70dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/green"
             android:text="Create"
@@ -57,25 +57,23 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.26"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textrdrd"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/meetSubject"
+            app:layout_constraintTop_toBottomOf="@+id/meetSubject"
+            app:layout_constraintVertical_bias="0.067" />
 
         <Button
             android:id="@+id/meetcreatecancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="8dp"
             android:backgroundTint="@color/green"
             android:text="Cancel"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.016"
-            app:layout_constraintStart_toEndOf="@+id/meetcreate" />
+            app:layout_constraintBottom_toBottomOf="@+id/meetcreate"
+            app:layout_constraintStart_toEndOf="@+id/meetcreate"
+            app:layout_constraintTop_toTopOf="@+id/meetcreate" />
 
         <EditText
             android:id="@+id/meetSubject"
@@ -104,6 +102,48 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/meetSubject"
             app:layout_constraintTop_toBottomOf="@+id/meetSubject" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1.2dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/meetcreate" />
+
+        <TextView
+            android:id="@+id/textView16"
+            style="@style/background"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="Or"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/divider"
+            app:layout_constraintEnd_toEndOf="@+id/divider"
+            app:layout_constraintStart_toStartOf="@+id/divider"
+            app:layout_constraintTop_toTopOf="@+id/divider" />
+
+        <Button
+            android:id="@+id/instantmeetcreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/green"
+            android:text="Create Instant Meeting"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
