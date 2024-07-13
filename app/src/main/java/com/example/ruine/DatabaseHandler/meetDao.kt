@@ -14,8 +14,8 @@ interface meetDao {
     @Update
     suspend fun UpdateMail(data: meetData)
 
-    @Query("DELETE FROM meetData WHERE meetCode = :meetCode")
-    suspend fun deleteByMeetId(meetCode: String)
+    @Query("DELETE FROM meetData WHERE meetUri = :meetUri")
+    suspend fun deleteByMeetId(meetUri: String)
 
     @Query("SELECT * FROM meetData")
     fun getData(): LiveData<List<meetData>>
