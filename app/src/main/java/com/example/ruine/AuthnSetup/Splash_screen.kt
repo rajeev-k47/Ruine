@@ -6,23 +6,24 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.ruine.R
+import com.example.ruine.Rvmodels.Rvmodel
+import com.example.ruine.databinding.ActivitySplashScreenBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 
 class Splash_screen : AppCompatActivity() {
+    private val binding:ActivitySplashScreenBinding by lazy {
+        ActivitySplashScreenBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_splash_screen)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        setContentView(binding.root)
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, Login::class.java))
             finish()
-        }, 300)
+        }, 200)
     }
 }
