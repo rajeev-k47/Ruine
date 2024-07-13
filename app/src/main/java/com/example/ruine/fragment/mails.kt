@@ -26,6 +26,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.example.ruine.viewModels.mailViewModel
+import com.google.android.material.tabs.TabItem
+import com.google.android.material.tabs.TabLayout
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
@@ -50,9 +52,11 @@ class mails : Fragment(){
     private lateinit var auth: FirebaseAuth
     private var datalist=ArrayList<Rv_mail_model>()
     private var Newdatalist=ArrayList<Rv_mail_model>()
+    private var CatergoryList=ArrayList<Rv_mail_model>()
     lateinit var  database: MailDatabase
     lateinit var  Creddatabase: CredDatabase
     var MessageUpdated=false
+    var CurrentTab="PRIMARY"
 
     val datePattern = Pattern.compile(
 //        "(\\d{1,2} \\w{3}) \\d{4}"
@@ -84,9 +88,28 @@ class mails : Fragment(){
 
         binding.compose.setOnClickListener{
             activity?.startActivity(Intent(requireContext(),MailSending::class.java))
-//            FancyToast.makeText(requireContext(), "Mail Sent", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.tick, false).show();
         }
         binding.LoadMails.visibility=View.VISIBLE
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val tabName = tab?.text.toString().uppercase().replace("\\s".toRegex(), "")
+                CurrentTab=tabName
+                binding.LoadMails.visibility=View.VISIBLE
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO){
+                        filterLabel(tabName)
+                    }
+                }
+            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+//                println(tab.toString())
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//                println(tab.toString())
+            }
+        })
 
         lifecycleScope.launch {
             withContext(Dispatchers.Main) {
@@ -96,10 +119,11 @@ class mails : Fragment(){
                     if(data){
                         for (item in it.reversed()){
                             if(item.Id==auth.currentUser?.uid&&!MessageUpdated){
-                                datalist.add(Rv_mail_model(R.drawable.person,item.messageId,item.Title,item.Date,item.Subject))
+                                datalist.add(Rv_mail_model(R.drawable.person,item.messageId,item.Title,item.Date,item.Subject,item.labelIds))
                             }
                         }
-                        manageAdapter()
+//                        manageAdapter(datalist)
+                        filterLabel(CurrentTab)//random shit
                         binding.LoadMails.visibility=View.GONE
                         if(!MessageUpdated){
                         fetchNewMessages();
@@ -206,14 +230,14 @@ class mails : Fragment(){
         })
     }
 
-    private fun manageAdapter(){
+    private fun manageAdapter(List:ArrayList<Rv_mail_model>){
         binding.rvMail.layoutManager =
             LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.VERTICAL,
                 false
             )
-        val adapter = Rv_mail_Adapter(datalist,requireContext())
+        val adapter = Rv_mail_Adapter(List,requireContext())
         binding.rvMail.adapter = adapter
     }
     private fun checkUpdateList(messages:JSONArray, itemList:ArrayList<Rv_mail_model>):Int{
@@ -236,10 +260,11 @@ class mails : Fragment(){
             MessageUpdated=true
             lifecycleScope.launch {
                 withContext(Dispatchers.Main) {
+                    Newdatalist.reverse()
                     for (item in Newdatalist){
-                        database.mailDao().insertMail(Maildata(0,auth.currentUser?.uid!!,item.messageId,item.mail_title!!, item.mail_date!!, item.mail_snippet!!))
+                        database.mailDao().insertMail(Maildata(0,auth.currentUser?.uid!!,item.messageId,item.mail_title!!, item.mail_date!!, item.mail_snippet!!,item.labelIds))
                         datalist.add(0,
-                            Rv_mail_model(R.drawable.person,item.messageId,item.mail_title,item.mail_date,item.mail_snippet,true)
+                            Rv_mail_model(R.drawable.person,item.messageId,item.mail_title,item.mail_date,item.mail_snippet,item.labelIds,true)
                         )
                     }
                 }}
@@ -261,6 +286,7 @@ class mails : Fragment(){
                 val responseBody = response.body?.string()
                 val json = JSONObject(responseBody)
                 val payload = json.getJSONObject("payload")
+                val labelIds = json.getJSONArray("labelIds")
                 val header = payload.getJSONArray("headers")
                 var date = ""
                 var title = ""
@@ -292,7 +318,7 @@ class mails : Fragment(){
 
                     }
 
-                    Newdatalist.add(Rv_mail_model(R.drawable.person,Messages.getJSONObject(index).getString("id"), title, date, subject))
+                    Newdatalist.add(Rv_mail_model(R.drawable.person,Messages.getJSONObject(index).getString("id"), title, date, subject,labelIds))
 
 
                 } catch (error: JSONException) {
@@ -304,9 +330,40 @@ class mails : Fragment(){
         })
     }
 
+    private fun filterLabel(Category:String){
+        CatergoryList.clear()
+        for(item in datalist){
+            for(items in 0..<item.labelIds.length()){
+                val label = item.labelIds[items]
+               if(label==Category){
+                   CatergoryList.add(Rv_mail_model(item.mail_profile,item.messageId,item.mail_title,item.mail_date,item.mail_snippet,item.labelIds))
+               }else if(Category=="PRIMARY"&&label=="CATEGORY_PROMOTIONS"){
+                   CatergoryList.add(Rv_mail_model(item.mail_profile,item.messageId,item.mail_title,item.mail_date,item.mail_snippet,item.labelIds))
+               }
+            }
+        }
+        if(Category=="PRIMARY"){
+            var filteredList = ArrayList<Rv_mail_model>()
+             filteredList = datalist.filterNot { it in CatergoryList } as ArrayList<Rv_mail_model>
+            activity?.runOnUiThread {
+                binding.LoadMails.visibility=View.GONE
+                manageAdapter(filteredList)
+            }
+        }
+        else if(Category=="ALLMAIL"){
+            activity?.runOnUiThread {
+                manageAdapter(datalist)
+                binding.LoadMails.visibility=View.GONE
 
-
-
+            }
+        }
+        else{
+        activity?.runOnUiThread {
+            binding.LoadMails.visibility=View.GONE
+            manageAdapter(CatergoryList)
+            }
+        }
+    }
 
 
 }
