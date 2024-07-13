@@ -184,7 +184,7 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     datalist.reverse()
                     for (item in datalist){
-                        database.mailDao().insertMail(Maildata(0,auth.currentUser?.uid!!,item.messageId,item.mail_title!!, item.mail_date!!, item.mail_snippet!!))
+                        database.mailDao().insertMail(Maildata(0,auth.currentUser?.uid!!,item.messageId,item.mail_title!!, item.mail_date!!, item.mail_snippet!!,item.labelIds))
                     }
                 }}
             return
@@ -204,6 +204,7 @@ class MainActivity : AppCompatActivity() {
                 val responseBody = response.body?.string()
                 val json = JSONObject(responseBody)
                 val payload = json.getJSONObject("payload")
+                val labelIds = json.getJSONArray("labelIds")
                 val header = payload.getJSONArray("headers")
                 var date = ""
                 var title = ""
@@ -235,7 +236,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
 
-                    datalist.add(Rv_mail_model(R.drawable.person,MESSAGE_IDS[index], title, date, subject))
+                    datalist.add(Rv_mail_model(R.drawable.person,MESSAGE_IDS[index], title, date, subject,labelIds))
 
 
                 } catch (error: JSONException) {
