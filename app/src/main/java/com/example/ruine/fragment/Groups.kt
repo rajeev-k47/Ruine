@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
 import androidx.core.view.get
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ruine.R
 import com.example.ruine.Adapters.Rvadapter
@@ -27,6 +28,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Groups : Fragment() {
     private val binding: FragmentGroupsBinding by lazy {
@@ -71,53 +75,58 @@ class Groups : Fragment() {
 
         //=================================================================================//
         val currentuser = auth.currentUser
-        currentuser?.let { user ->
-            val groupref = databaseReference.child("users").child(user.uid).child("groupmail")
-            groupValueEventListener=object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO){
+                currentuser?.let { user ->
+                    val groupref = databaseReference.child("users").child(user.uid).child("groupmail")
+                    groupValueEventListener=object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
 //                        val grp_list_from_database = mutableListOf<Rvmodel>()
-                    datalist.clear()
-                    for (groups in snapshot.children) {
-                        val grps_from_database = groups.getValue(Rvmodel::class.java)
-                        grps_from_database?.let {
-                            datalist.add(it)
-                        }
-                    }
-                    binding.rv.layoutManager =
-                        LinearLayoutManager(
-                            requireContext(),
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
-                    datalist.reverse()
-                    val adapter =
-                        Rvadapter(requireContext(),datalist, object : Rvadapter.OptionsMenuClickListener {
-                            override fun onOptionsMenuClicked(
-                                position: Int,
-                                grp_key: String,
-                                GRP_NAME: String,
-                                GRP_MAILTAG: String
-                            ) {
-                                Menuclick(position, grp_key, GRP_NAME, GRP_MAILTAG)
+                            datalist.clear()
+                            for (groups in snapshot.children) {
+                                val grps_from_database = groups.getValue(Rvmodel::class.java)
+                                grps_from_database?.let {
+                                    datalist.add(it)
+                                }
                             }
-                        })
-                    binding.rv.adapter = adapter
-                    binding.LoadGroups.visibility=View.GONE
+                            binding.rv.layoutManager =
+                                LinearLayoutManager(
+                                    requireContext(),
+                                    LinearLayoutManager.VERTICAL,
+                                    false
+                                )
+                            datalist.reverse()
+                            val adapter =
+                                Rvadapter(requireContext(),datalist, object : Rvadapter.OptionsMenuClickListener {
+                                    override fun onOptionsMenuClicked(
+                                        position: Int,
+                                        grp_key: String,
+                                        GRP_NAME: String,
+                                        GRP_MAILTAG: String
+                                    ) {
+                                        Menuclick(position, grp_key, GRP_NAME, GRP_MAILTAG)
+                                    }
+                                })
+                            binding.rv.adapter = adapter
+                            binding.LoadGroups.visibility=View.GONE
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Snackbar.make(requireView(), "Data Fetching Failed!!", Snackbar.LENGTH_SHORT)
+                                .setAction("Ok"){}
+                                .setBackgroundTint(resources.getColor(R.color.brown))
+                                .setTextColor(Color.WHITE)
+                                .show()
+//                    Toast.makeText(requireContext(),"Data Fetching Failed!!" ,Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+                    groupref.addValueEventListener(groupValueEventListener)
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Snackbar.make(requireView(), "Data Fetching Failed!!", Snackbar.LENGTH_SHORT)
-                        .setAction("Ok"){}
-                        .setBackgroundTint(resources.getColor(R.color.brown))
-                        .setTextColor(Color.WHITE)
-                        .show()
-//                    Toast.makeText(requireContext(),"Data Fetching Failed!!" ,Toast.LENGTH_SHORT).show()
-                }
 
             }
-            groupref.addValueEventListener(groupValueEventListener)
         }
-
 
     }
 
