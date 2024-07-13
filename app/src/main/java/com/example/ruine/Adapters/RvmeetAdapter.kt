@@ -1,5 +1,6 @@
 package com.example.ruine.Adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -29,9 +30,11 @@ class RvmeetAdapter(var meetlist:ArrayList<Rvmeets>,var context: Context,val Dat
         return meetlist.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RvmeetAdapter.MyviewHolder, position: Int) {
         holder.binding.meetsubject.text=meetlist[position].Subject
-        holder.binding.meettime.text=meetlist[position].Time
+        holder.binding.meettime.text=meetlist[position].meetDate +" at "+meetlist[position].Time
+        holder.binding.meetGroup.text="Group : ${meetlist[position].meetGroup}"
         holder.binding.joinmeet.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(meetlist[position].meetUri))
             context.startActivity(intent)
@@ -54,7 +57,7 @@ class RvmeetAdapter(var meetlist:ArrayList<Rvmeets>,var context: Context,val Dat
 
                 }
                 .setPositiveButton("Confirm") { dialog, which ->
-                    DataCarrier.DataBridgeCarrier(meetlist[position].meetingCode)
+                    DataCarrier.DataBridgeCarrier(meetlist[position].meetUri)
                     removeMemberAt(position)
                 }
                 .show()
