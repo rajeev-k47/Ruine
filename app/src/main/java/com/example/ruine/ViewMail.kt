@@ -137,6 +137,8 @@ class ViewMail : AppCompatActivity() {
                 val json = JSONObject(responseBody!!)
                 val payload = json.getJSONObject("payload")
                 val header = payload.getJSONArray("headers")
+                Log.d("hallo","${payload.getString("mimeType")}")
+
                 if(payload.getString("mimeType")=="text/html"){
                    val data =  payload.getJSONObject("body").getString("data")
                     decodeNUpdate(data)
@@ -153,15 +155,71 @@ class ViewMail : AppCompatActivity() {
                 }
                 else if(payload.getString("mimeType")=="multipart/alternative"){
                     val parts = payload.getJSONArray("parts")
-                    for(item in 0..parts.length()){
+                    for(item in 0..<parts.length()){
                         if(parts.getJSONObject(item).getString("mimeType")=="text/html"){
                             val data=parts.getJSONObject(item).getJSONObject("body").getString("data")
                             decodeNUpdate(data)
                             break
                         }
+                        else if(parts.getJSONObject(item).getString("mimeType")=="multipart/related"){
+
+                            val subsubArray=parts.getJSONObject(item).getJSONArray("parts")
+                            for(items in 0..<subsubArray.length()){
+                                if(subsubArray.getJSONObject(items).getString("mimeType")=="text/html"){
+                                    val data=subsubArray.getJSONObject(items).getJSONObject("body").getString("data")
+                                    decodeNUpdate(data)
+                                    break
+                                }
+                            }
+                        }
+                        else if(parts.getJSONObject(item).getString("mimeType")=="text/plain"){
+
+                            var data = parts.getJSONObject(item).getJSONObject("body").getString("data")
+                            decodeNUpdate(data)
+                        }
                     }
                 }
-                Log.d("hallo","${payload.getString("mimeType")}")
+                else if(payload.getString("mimeType")=="multipart/mixed"){
+                    var parts = payload.getJSONArray("parts")
+                    for(item in 0..<parts.length()){
+                        val part = parts.getJSONObject(item)?:null
+                        if(part?.getString("mimeType")=="multipart/alternative"){
+                            val subpart = part.getJSONArray("parts")
+                            for(part in 0..<subpart.length()){
+                                val subArray = subpart.getJSONObject(part)
+                                if(subArray.getString("mimeType")=="text/html"){
+                                    val data=subArray.getJSONObject("body").getString("data")
+                                    decodeNUpdate(data)
+                                    break
+                                }
+                                else if(subArray.getString("mimeType")=="multipart/related"){
+                                    val subsubArray=subArray.getJSONArray("parts")
+                                    for(items in 0..<subsubArray.length()){
+                                        if(subsubArray.getJSONObject(items).getString("mimeType")=="text/html"){
+                                            val data=subsubArray.getJSONObject(items).getJSONObject("body").getString("data")
+                                            decodeNUpdate(data)
+                                            break
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+
+                    }
+                }
+                else if(payload.getString("mimeType")=="multipart/related"){
+
+                    val subsubArray=payload.getJSONArray("parts")
+                    for(items in 0..<subsubArray.length()){
+                        if(subsubArray.getJSONObject(items).getString("mimeType")=="text/html"){
+                            val data=subsubArray.getJSONObject(items).getJSONObject("body").getString("data")
+                            decodeNUpdate(data)
+                            break
+                        }
+                    }
+                }
 
                 var subject=""
                 var title=""
