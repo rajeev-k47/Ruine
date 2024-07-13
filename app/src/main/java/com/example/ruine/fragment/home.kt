@@ -22,6 +22,7 @@ import com.example.ruine.DatabaseHandler.meetDatabase
 import com.example.ruine.R
 import com.example.ruine.Rvmodels.Rvmeets
 import com.example.ruine.databinding.FragmentHomeBinding
+import com.example.ruine.savedInstances
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -52,6 +53,8 @@ class home : Fragment() {
     val newMeetLink="https://meet.googleapis.com/v2/spaces"
     var Updating=false
 
+    var savedInstance = savedInstances(false)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,46 +84,8 @@ class home : Fragment() {
 
 
         binding.extendedFab.setOnClickListener {
-//                    makeNewMeet(AccessToken)
-            val add_view = layoutInflater.inflate(R.layout.add_new_meet, null)
-
-            val DailogCreateGroup= MaterialAlertDialogBuilder(requireContext())
-                .setView(add_view)
-                .create()
-            add_view.findViewById<Button>(R.id.meetcreatecancel).setOnClickListener{
-                DailogCreateGroup.dismiss()
-            }
-            var time=""
-            add_view.findViewById<Button>(R.id.choosetime).setOnClickListener {
-                val picker =
-                    MaterialTimePicker.Builder()
-                        .setTimeFormat(TimeFormat.CLOCK_12H)
-                        .setHour(12)
-                        .setMinute(10)
-                        .setTitleText("Select Appointment time")
-                        .build()
-                picker.show(childFragmentManager, "tag");
-
-                picker.addOnPositiveButtonClickListener {
-                    time="${picker.hour}:${picker.minute}"
-                }
-            }
-            add_view.findViewById<Button>(R.id.meetcreate).setOnClickListener {
-                val meetingsubject = add_view.findViewById<EditText>(R.id.meetSubject).text.toString()
-                if(time.isNotEmpty()&&meetingsubject.isNotEmpty()){
-                    makeNewMeet(AccessToken,meetingsubject,time)
-                    Updating=true
-                    DailogCreateGroup.dismiss()
-                    binding.meetLoad.visibility=View.VISIBLE
-                }
-                else{
-                    Toast.makeText(requireContext(),"All the Fields are Required",Toast.LENGTH_SHORT).show()
-                }
-            }
-            DailogCreateGroup.show()
-
-
-
+            savedInstance.newMeetPopUp=true
+            ShowPopUp()
         }
 
 
@@ -231,6 +196,49 @@ class home : Fragment() {
         binding.rvmeet.adapter = adapter
     }
 
+    private fun ShowPopUp(){
+        val add_view = layoutInflater.inflate(R.layout.add_new_meet, null)
+
+        val DailogCreateGroup= MaterialAlertDialogBuilder(requireContext())
+            .setView(add_view)
+            .create()
+        add_view.findViewById<Button>(R.id.meetcreatecancel).setOnClickListener {
+            DailogCreateGroup.dismiss()
+        }
+        var time=""
+        add_view.findViewById<Button>(R.id.choosetime).setOnClickListener {
+            val picker =
+                MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .setHour(12)
+                    .setMinute(10)
+                    .setTitleText("Select Meeting time")
+                    .build()
+            picker.show(childFragmentManager, "tag");
+
+            picker.addOnPositiveButtonClickListener {
+                time="${picker.hour}:${picker.minute}"
+            }
+        }
+        add_view.findViewById<Button>(R.id.meetcreate).setOnClickListener {
+            val meetingsubject = add_view.findViewById<EditText>(R.id.meetSubject).text.toString()
+            if(time.isNotEmpty()&&meetingsubject.isNotEmpty()){
+                makeNewMeet(AccessToken,meetingsubject,time)
+                Updating=true
+                DailogCreateGroup.dismiss()
+                binding.meetLoad.visibility=View.VISIBLE
+            }
+            else{
+                Toast.makeText(requireContext(),"All the Fields are Required",Toast.LENGTH_SHORT).show()
+            }
+        }
+        DailogCreateGroup.show()
+
+        DailogCreateGroup.setOnDismissListener {
+            savedInstance.newMeetPopUp=false
+        }
+    }
+
 
 
 
@@ -240,6 +248,22 @@ class home : Fragment() {
     ): View {
 
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putBoolean("meetPopUp",savedInstance.newMeetPopUp)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if(savedInstanceState!=null){
+            if (savedInstanceState.getBoolean("meetPopUp")==true){
+                ShowPopUp()
+            }
+        }
+
     }
 
 
