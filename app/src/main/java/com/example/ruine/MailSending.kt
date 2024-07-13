@@ -67,7 +67,7 @@ class MailSending : AppCompatActivity() {
         val subject = binding.subject
         val context = binding.context
         binding.sendMail.setOnClickListener {
-            if(From.toString().isNotEmpty()&&To.text.isNotEmpty()&&subject.text.isNotEmpty()){
+            if(From.toString().isNotEmpty()&&To.text!!.isNotEmpty()&&subject.text!!.isNotEmpty()){
                 if(isGmailAddress(To.text.toString())){
                 sendMail(To.text.toString(),subject.text.toString(),context.text.toString())}
             else{
@@ -100,10 +100,6 @@ class MailSending : AppCompatActivity() {
 
         val adapter =ArrayAdapter(this,android.R.layout.simple_dropdown_item_1line,suggestions)
         To.setAdapter(adapter)
-        To.setOnItemClickListener { parent, view, position, id ->
-            val selectedItem = parent.getItemAtPosition(position).toString()
-            To.setText(selectedItem)
-        }
 
     }
     private fun sendMail( To:String, Subject:String, Context:String){
@@ -222,7 +218,6 @@ class MailSending : AppCompatActivity() {
                                 for (member in membersSnapshot.children) {
                                     val memberName = member.getValue(RvMembersModel::class.java)
                                     memberName?.let { name ->
-                                        Log.d("dies","$memberName")
                                         sendMail(name.MemberMail!!,Subject,Context)
                                     }
                                 }
