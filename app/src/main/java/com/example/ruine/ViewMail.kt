@@ -205,6 +205,12 @@ class ViewMail : AppCompatActivity() {
                                 }
                             }
                         }
+                        else if (part?.getString("mimeType")=="text/plain"){
+                            val data=part.getJSONObject("body").getString("data")
+                            decodeNUpdate(data)
+//                            Log.d("hola",part.getString("mimetype"))
+
+                        }
 
 
                     }
