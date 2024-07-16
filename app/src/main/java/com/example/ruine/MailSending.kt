@@ -14,6 +14,7 @@ import com.example.ruine.DatabaseHandler.CredDatabase
 import com.example.ruine.Rvmodels.RvMembersModel
 import com.example.ruine.Rvmodels.Rvmodel
 import com.example.ruine.databinding.ActivityMailSendingBinding
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -55,7 +56,6 @@ class MailSending : AppCompatActivity() {
         setContentView(binding.root)
         Creddatabase= Room.databaseBuilder(this, CredDatabase::class.java,"Cred").build()
         databaseReference = FirebaseDatabase.getInstance().reference
-
         auth=FirebaseAuth.getInstance()
         val From = auth.currentUser?.email
 
@@ -64,6 +64,7 @@ class MailSending : AppCompatActivity() {
         Fromtext.isFocusable = false
         Fromtext.isFocusableInTouchMode = false
         val To = binding.to
+        handleIntent(To)
         val subject = binding.subject
         val context = binding.context
         binding.sendMail.setOnClickListener {
@@ -102,6 +103,16 @@ class MailSending : AppCompatActivity() {
         To.setAdapter(adapter)
 
     }
+
+    private fun handleIntent(To:MaterialAutoCompleteTextView) {
+        if(intent.data!=null){
+            intent.data?.let {
+                val email = it.schemeSpecificPart
+                To.setText(email)
+            }
+        }
+    }
+
     private fun sendMail( To:String, Subject:String, Context:String){
         val emailContent = "To: $To\r\n" +
                 "Subject: $Subject\r\n" +
