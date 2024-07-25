@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
     kotlin("kapt")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -16,7 +17,7 @@ android {
     }
     defaultConfig {
         applicationId = "com.example.ruine"
-        minSdk = 26
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.1"
@@ -58,7 +59,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     // Import the BoM for the Firebase platform
-    implementation(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
+    implementation(platform(libs.firebase.bom.v3312))
 
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
@@ -97,6 +99,9 @@ dependencies {
     implementation(libs.jxl)
     implementation("org.apache.poi:poi:5.2.3") // for .xls files
     implementation("org.apache.poi:poi-ooxml:5.2.3") // for .xlsx files
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
+
 //    ksp("androidx.room:room-compiler:$room_version")
 
 
