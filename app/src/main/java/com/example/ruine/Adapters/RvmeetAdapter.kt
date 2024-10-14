@@ -1,17 +1,20 @@
 package com.example.ruine.Adapters
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
+import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ruine.Rvmodels.Rvmeets
-import com.example.ruine.databinding.DemoMailLayoutBinding
 import com.example.ruine.databinding.DemoMeetLayoutBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class RvmeetAdapter(var meetlist:ArrayList<Rvmeets>,var context: Context,val DataCarrier: meetDataBridge): RecyclerView.Adapter<RvmeetAdapter.MyviewHolder>() {
     interface meetDataBridge {
@@ -62,6 +65,16 @@ class RvmeetAdapter(var meetlist:ArrayList<Rvmeets>,var context: Context,val Dat
                 }
                 .show()
 
+        }
+        holder.binding.Remind.setOnClickListener {
+            val formatter = DateTimeFormatter.ofPattern("HH:mm")
+            val localTime = LocalTime.parse(meetlist[position].Time, formatter)
+            val alarmIntent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
+                putExtra(AlarmClock.EXTRA_HOUR, localTime.hour)
+                putExtra(AlarmClock.EXTRA_MINUTES, localTime.minute)
+                putExtra(AlarmClock.EXTRA_MESSAGE, meetlist[position].Subject)
+            }
+            context.startActivity(alarmIntent)
         }
     }
 
