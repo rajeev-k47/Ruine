@@ -71,18 +71,15 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="36dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginBottom="14dp"
             android:backgroundTint="@color/green"
             android:text="Notifications"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/Logout"
+            app:layout_constraintBottom_toBottomOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/button"
-            app:layout_constraintTop_toBottomOf="@+id/bottom_email"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="@+id/button" />
 
         <Button
             android:id="@+id/button"
@@ -107,13 +104,13 @@
             android:id="@+id/imageView"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="40dp"
             android:src="@drawable/settings"
             android:tint="@color/green"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toEndOf="@+id/bottom_profile"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/bottom_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

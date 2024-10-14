@@ -1,7 +1,9 @@
 package com.example.ruine.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +74,7 @@ class home : Fragment() {
     var AccessToken=""
     val newMeetLink="https://meet.googleapis.com/v2/spaces"
     var Updating=false
+    private val SET_ALARM_PERMISSION_REQUEST_CODE = 1
 
     var savedInstance = savedInstances(false)
 

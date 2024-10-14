@@ -6,6 +6,7 @@ credentials = "1.3.0-beta02"
 excelparser = "1.1.0"
 fancytoast = "2.0.2"
 firebaseBom = "33.1.1"
+firebaseBomVersion = "33.1.2"
 glide = "4.12.0"
 glideTransformations = "4.3.0"
 googleApiClient = "2.0.0"
@@ -54,6 +55,7 @@ compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide
 excelparser = { module = "com.github.sudarchai:ExcelParser", version.ref = "excelparser" }
 fancytoast = { module = "io.github.shashank02051997:FancyToast", version.ref = "fancytoast" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-bom-v3312 = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBomVersion" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glideTransformations" }
 gms-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuthVersion" }
