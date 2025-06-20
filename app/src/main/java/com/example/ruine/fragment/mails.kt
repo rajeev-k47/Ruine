@@ -26,7 +26,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.example.ruine.viewModels.mailViewModel
-import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import okhttp3.Call
 import okhttp3.Callback

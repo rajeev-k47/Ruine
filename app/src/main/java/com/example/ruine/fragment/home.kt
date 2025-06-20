@@ -1,9 +1,7 @@
 package com.example.ruine.fragment
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -153,7 +151,7 @@ class home : Fragment() {
         val zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault())
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX")
         val startDateTime = zonedDateTime.format(formatter)
-        val endDateTime = zonedDateTime.plusHours(1).format(formatter)
+        val endDateTime = zonedDateTime.plusHours(1).format(formatter) //default duration is 1 hour
 
         val currentUser = auth.currentUser
         currentUser?.let { user ->

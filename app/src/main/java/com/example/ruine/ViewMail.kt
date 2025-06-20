@@ -12,12 +12,10 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.example.ruine.DatabaseHandler.CredDatabase
-import com.example.ruine.handlerClasses.getNewMessage
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +27,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okio.IOException
-import org.json.JSONException
 import org.json.JSONObject
 
 class ViewMail : AppCompatActivity() {

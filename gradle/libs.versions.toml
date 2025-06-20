@@ -41,6 +41,8 @@ poi = "5.2.5"
 poiVersion = "5.2.3"
 roomRuntime = "2.6.1"
 swiperefreshlayout = "1.1.0"
+firebaseCrashlytics = "19.3.0"
+googleFirebaseCrashlytics = "3.0.2"
 
 [libraries]
 android_materialfilepicker = { module = "com.github.arteaprogramar:Android_MaterialFilePicker", version.ref = "android_materialfilepicker" }
@@ -88,9 +90,11 @@ play-services-auth-v2111 = { module = "com.google.android.gms:play-services-auth
 poi = { module = "org.apache.poi:poi", version.ref = "poi" }
 poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poiVersion" }
 poi-v523 = { module = "org.apache.poi:poi", version.ref = "poiVersion" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
 

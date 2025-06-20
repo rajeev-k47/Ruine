@@ -6,11 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.ruine.Rvmodels.Rvmodel
 import com.example.ruine.databinding.ActivitySplashScreenBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 
 class Splash_screen : AppCompatActivity() {
     private val binding:ActivitySplashScreenBinding by lazy {

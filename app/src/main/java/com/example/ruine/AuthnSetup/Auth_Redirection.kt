@@ -37,7 +37,7 @@ class Auth_Redirection : AppCompatActivity() {
         val encodedScopes = scopes.joinToString(separator = "%20") { Uri.encode(it) }
 
 
-        val url = "https://accounts.google.com/o/oauth2/v2/auth?scope=$encodedScopes&access_type=offline&include_granted_scopes=true&prompt=consent&response_type=code&state=state_parameter_passthrough_value&redirect_uri=https://ruine-credentials-chu6.onrender.com/callback&client_id=${getString(
+        val url = "https://accounts.google.com/o/oauth2/v2/auth?scope=$encodedScopes&access_type=offline&include_granted_scopes=true&prompt=consent&response_type=code&state=state_parameter_passthrough_value&redirect_uri=https://ruine-credentials.onrender.com/callback&client_id=${getString(
             R.string.client_id
         )}&flowName=GeneralOAuthFlow"
 

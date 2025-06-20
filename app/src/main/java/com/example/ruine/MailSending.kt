@@ -1,7 +1,6 @@
 package com.example.ruine
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -207,7 +206,7 @@ class MailSending : AppCompatActivity() {
     }
     private fun showFailureToast(message: String) {
         runOnUiThread {
-            FancyToast.makeText(this, "Mail Sent", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.tick, false).show();
+            FancyToast.makeText(this, message, FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, R.drawable.tick, false).show();
 
         }
     }

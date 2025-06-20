@@ -67,7 +67,7 @@
 
                 <data
                     android:scheme="https"
-                    android:host="ruine-credentials-chu6.onrender.com"
+                    android:host="ruine-credentials.onrender.com"
                     android:pathPrefix="/getAuth"/>
             </intent-filter>
         </activity>

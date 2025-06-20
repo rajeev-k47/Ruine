@@ -1,14 +1,12 @@
 package com.example.ruine.Adapters
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ruine.Rvmodels.Rvmeets
 import com.example.ruine.databinding.DemoMeetLayoutBinding

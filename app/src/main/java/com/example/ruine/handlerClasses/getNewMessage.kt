@@ -1,7 +1,6 @@
 package com.example.ruine.handlerClasses
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope

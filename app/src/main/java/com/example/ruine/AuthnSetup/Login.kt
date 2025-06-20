@@ -19,7 +19,6 @@ import com.example.ruine.databinding.ActivityLoginBinding
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
@@ -35,11 +34,7 @@ class Login : AppCompatActivity() {
     lateinit var  Creddatabase: CredDatabase
 
 
-    override fun onStart() {
-        super.onStart()
 
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,17 +56,17 @@ class Login : AppCompatActivity() {
             if (loginemail.isEmpty() || loginpassword.isEmpty()) {
                 Toast.makeText(this, "Something is missing !!", Toast.LENGTH_SHORT).show()
             } else {
-                auth.signInWithEmailAndPassword(loginemail, loginpassword)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Login Successful !!", Toast.LENGTH_SHORT).show()
-
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
-                        } else {
-                            Toast.makeText(this, "Wrong Credentials !!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+//                auth.signInWithEmailAndPassword(loginemail, loginpassword)
+//                    .addOnCompleteListener { task ->
+//                        if (task.isSuccessful) {
+                            Toast.makeText(this, "Email Login No Longer Supported", Toast.LENGTH_SHORT).show()
+//
+//                            startActivity(Intent(this, MainActivity::class.java))
+//                            finish()
+//                        } else {
+//                            Toast.makeText(this, "Wrong Credentials !!", Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
             }
         }
         binding.google.setOnClickListener {
@@ -135,7 +130,8 @@ class Login : AppCompatActivity() {
                         }
                     }
                 }catch (e:GetCredentialException){
-                    Toast.makeText(this@Login, "Credential Failure!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@Login, "Credential Failure!! error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    println("Credential Failure!! error: ${e.message}")
                 }
             }
         }
