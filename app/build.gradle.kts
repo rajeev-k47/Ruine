@@ -12,8 +12,8 @@ android {
 //    }
     namespace = "com.example.ruine"
     compileSdk = 34
-    buildFeatures{
-        viewBinding=true
+    buildFeatures {
+        viewBinding = true
     }
     defaultConfig {
         applicationId = "com.example.ruine"
@@ -30,16 +30,21 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+    }
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
     }
 }
 
@@ -70,31 +75,26 @@ dependencies {
     implementation(libs.play.services.auth.v2111)
     implementation(libs.androidx.credentials)
     implementation(libs.googleid)
-    implementation (libs.kotlinx.coroutines.core)
-    implementation (libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
-    implementation (libs.androidx.browser)
+    implementation(libs.androidx.browser)
     implementation(libs.okhttp)
-
-
 
 //    implementation (libs.google.api.client)
 //    implementation ("com.google.api-client:google-api-client-gson:1.31.5")
 //    implementation (libs.google.api.services.gmail.vv1rev20220404200)
 //    implementation ("com.google.oauth-client:google-oauth-client-jetty:1.34.1")import com.google.api.services.gmail.model.Message
 
-
-
-
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
-    implementation (libs.glide)
-    kapt (libs.compiler)
-    implementation (libs.glide.transformations)
+    implementation(libs.glide)
+    kapt(libs.compiler)
+    implementation(libs.glide.transformations)
     implementation(libs.androidx.swiperefreshlayout)
-    implementation (libs.fancytoast)
+    implementation(libs.fancytoast)
     implementation(libs.mail)
     implementation(libs.jxl)
     implementation("org.apache.poi:poi:5.2.3") // for .xls files
@@ -103,6 +103,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
 //    ksp("androidx.room:room-compiler:$room_version")
-
-
 }
+

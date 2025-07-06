@@ -161,7 +161,7 @@ class MailSending : AppCompatActivity() {
                                 val responseBody = response.body?.string()
                                 val json = JSONObject(responseBody)
                                 val AccessToken = json.getString("access_token")
-                                    sendMessaage(AccessToken,payload)
+                                sendMessaage(AccessToken,payload)
                                 //implement no internet exception
                             }
                         })

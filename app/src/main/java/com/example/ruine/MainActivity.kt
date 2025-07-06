@@ -112,10 +112,11 @@ class MainActivity : AppCompatActivity() {
                     database.mailDao().getData().observe(this@MainActivity, Observer {
                         val userdata = userdataexist(it)
 
-                        if(deeplink!=null && userdata){
+                        if(userdata){
 
                         }
                         else if(deeplink==null && !userdata){
+
                             startActivity(Intent(this@MainActivity,Login::class.java))
                             auth.signOut()
                             finish()

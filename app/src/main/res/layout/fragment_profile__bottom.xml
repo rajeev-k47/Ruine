@@ -105,7 +105,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/settings"
-            android:tint="@color/green"
+            app:tint="@color/green"
             app:layout_constraintBottom_toBottomOf="@+id/bottom_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
